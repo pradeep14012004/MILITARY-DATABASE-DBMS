@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Military Database</title>
+  <style>
+    :root {
+      --primary-color: #3498db;
+      --secondary-color: #2980b9;
+      --success-color: #2ecc71;
+      --danger-color: #e74c3c;
+      --warning-color: #f39c12;
+      --light-color: #222; /* Dark background for table headers */
+      --dark-color: #000; /* Black background */
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: var(--dark-color); /* Black background */
+      color: #fff; /* White text */
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
+      background-color: #111; /* Darker black for container */
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+    
+    header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 1rem 0;
+      margin-bottom: 2rem;
+      text-align: center;
+      border-radius: 5px;
+    }
+    
+    h1, h2 {
+      margin-bottom: 1rem;
+      color: #fff; /* White text */
+    }
+    
+    .card {
+      background-color: #222; /* Darker black for card */
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      color: #fff; /* White text */
+    }
+    
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: #fff; /* White text for labels */
+    }
+    
+    input, textarea, select {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #444; /* Dark border */
+      border-radius: 3px;
+      font-size: 1rem;
+      background-color: #222; /* Dark background for inputs */
+      color: #fff; /* White text for inputs */
+    }
+    
+    /* General Button Styles */
+    .btn {
+      display: inline-block;
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+      color: #fff; /* White text */
+      background-color: var(--primary-color); /* Primary color */
+      border: none;
+      border-radius: 8px; /* Rounded corners */
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    }
+
+    /* Hover Effect */
+    .btn:hover {
+      background-color: var(--secondary-color); /* Secondary color on hover */
+      transform: translateY(-3px); /* Slight lift effect */
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+    }
+
+    /* Success Button */
+    .btn-success {
+      background-color: var(--success-color); /* Success color */
+    }
+
+    .btn-success:hover {
+      background-color: #27ae60; /* Darker success color on hover */
+    }
+
+    /* Danger Button */
+    .btn-danger {
+      background-color: var(--danger-color); /* Danger color */
+    }
+
+    .btn-danger:hover {
+      background-color: #c0392b; /* Darker danger color on hover */
+    }
+
+    /* Warning Button */
+    .btn-warning {
+      background-color: var(--warning-color); /* Warning color */
+    }
+
+    .btn-warning:hover {
+      background-color: #e67e22; /* Darker warning color on hover */
+    }
+
+    /* Disabled Button */
+    .btn:disabled {
+      background-color: #7f8c8d; /* Gray color for disabled state */
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background-color: #222; /* Dark background for table */
+      color: #fff; /* White text for table */
+    }
+    
+    th, td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid #444; /* Darker border for rows */
+    }
+    
+    th {
+      background-color: var(--light-color); /* Darker header background */
+      font-weight: bold;
+      color: #fff; /* White text for headers */
+    }
+    
+    tr:hover {
+      background-color: #333; /* Hover effect for rows */
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .status-planned {
+      color: var(--warning-color);
+      font-weight: bold;
+    }
+    
+    .status-in-progress {
+      color: var(--primary-color);
+      font-weight: bold;
+    }
+    
+    .status-completed {
+      color: var(--success-color);
+      font-weight: bold;
+    }
+    
+    .status-cancelled {
+      color: var(--danger-color);
+      font-weight: bold;
+    }
+    
+    .alert {
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border-radius: 3px;
+      color: white;
+      display: none;
+    }
+    
+    .alert-success {
+      background-color: var(--success-color);
+    }
+    
+    .alert-danger {
+      background-color: var(--danger-color);
+    }
+    
+    .search-bar {
+      display: flex;
+      margin-bottom: 1rem;
+      gap: 1rem;
+    }
+    
+    .search-bar input {
+      flex: 1;
+      padding: 0.5rem;
+      border: 1px solid #444;
+      border-radius: 3px;
+      background-color: #222;
+      color: #fff;
+    }
+    
+    .filter-bar {
+      display: flex;
+      margin-bottom: 1rem;
+      gap: 1rem;
+    }
+    
+    .filter-bar select {
+      flex: 1;
+      padding: 0.5rem;
+      border: 1px solid #444;
+      border-radius: 3px;
+      background-color: #222;
+      color: #fff;
+    }
+    
+    @media (max-width: 768px) {
+      .action-buttons {
+        flex-direction: column;
+      }
+      
+      .filter-bar {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>MILITARY DATABASE</h1>
+  </header>
+
+  <main>
+    <!-- Add/Edit Mission Form -->
+    <section>
+      <h2 id="formTitle">Add New Mission</h2>
+      <form id="missionForm">
+        <input type="hidden" id="missionId">
+        <label for="missionName">Mission Name:</label>
+        <input type="text" id="missionName" required>
+        <label for="objective">Objective:</label>
+        <textarea id="objective"></textarea>
+        <label for="status">Status:</label>
+        <select id="status">
+          <option value="Planned">Planned</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+          <option value="Cancelled">Cancelled</option>
+        </select>
+        <div class="form-group">
+          <label for="serviceid">Service ID:</label>
+          <select id="serviceid" required>
+            <!-- Options will be populated dynamically -->
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="assignment_id">Assignment ID:</label>
+          <select id="assignment_id" required>
+            <!-- Options will be populated dynamically -->
+          </select>
+        </div>
+        <button type="submit" id="submitBtn">Add Mission</button>
+        <button type="button" id="cancelBtn" style="display:none;">Cancel</button>
+      </form>
+    </section>
+
+    <!-- Mission List -->
+    <section>
+      <h2>Mission List</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Mission Name</th>
+            <th>Objective</th>
+            <th>Status</th>
+            <th>Service ID</th>
+            <th>Assignment ID</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="missionTableBody">
+          <!-- Mission rows will be dynamically added here -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <script>
+    let missions = [];
+
+    const missionForm = document.getElementById('missionForm');
+    const missionTableBody = document.getElementById('missionTableBody');
+    const formTitle = document.getElementById('formTitle');
+    const missionIdInput = document.getElementById('missionId');
+    const missionNameInput = document.getElementById('missionName');
+    const objectiveInput = document.getElementById('objective');
+    const statusInput = document.getElementById('status');
+    const serviceidInput = document.getElementById('serviceid');
+    const assignmentIdInput = document.getElementById('assignment_id');
+    const submitBtn = document.getElementById('submitBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+
+    missionForm.addEventListener('submit', handleFormSubmit);
+    cancelBtn.addEventListener('click', resetForm);
+
+    function fetchMissions() {
+      fetch('/api/miss')
+        .then(response => response.json())
+        .then(data => {
+          missions = data;
+          displayMissions();
+        })
+        .catch(error => console.error('Error fetching missions:', error));
+    }
+
+    function handleFormSubmit(event) {
+      event.preventDefault();
+
+      const missionData = {
+        mission_name: missionNameInput.value,
+        objective: objectiveInput.value,
+        status: statusInput.value,
+        serviceid: serviceidInput.value,
+        assignment_id: assignmentIdInput.value,
+      };
+
+      const method = missionIdInput.value ? 'PUT' : 'POST';
+      const url = missionIdInput.value ? `/api/miss/${missionIdInput.value}` : '/api/miss';
+
+      fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(missionData),
+      })
+        .then(response => response.text())
+        .then(message => {
+          alert(message);
+          resetForm();
+          fetchMissions();
+        })
+        .catch(error => console.error('Error saving mission:', error));
+    }
+
+    function displayMissions() {
+      missionTableBody.innerHTML = '';
+      missions.forEach(mission => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${mission.mission_id}</td>
+          <td>${mission.mission_name}</td>
+          <td>${mission.objective}</td>
+          <td>${mission.status}</td>
+          <td>${mission.serviceid}</td>
+          <td>${mission.assignment_id}</td>
+          <td>
+            <button onclick="editMission(${mission.mission_id})">Edit</button>
+            <button onclick="deleteMission(${mission.mission_id})">Delete</button>
+          </td>
+        `;
+        missionTableBody.appendChild(row);
+      });
+    }
+
+    function editMission(id) {
+      const mission = missions.find(m => m.mission_id === id);
+      if (mission) {
+        formTitle.textContent = 'Edit Mission';
+        missionIdInput.value = mission.mission_id;
+        missionNameInput.value = mission.mission_name;
+        objectiveInput.value = mission.objective;
+        statusInput.value = mission.status;
+        serviceidInput.value = mission.serviceid;
+        assignmentIdInput.value = mission.assignment_id;
+        submitBtn.textContent = 'Update Mission';
+        cancelBtn.style.display = 'inline-block';
+      }
+    }
+
+    function deleteMission(id) {
+      if (confirm('Are you sure you want to delete this mission?')) {
+        fetch(`/api/miss/${id}`, { method: 'DELETE' })
+          .then(response => response.text())
+          .then(message => {
+            alert(message);
+            fetchMissions();
+          })
+          .catch(error => console.error('Error deleting mission:', error));
+      }
+    }
+
+    function resetForm() {
+      formTitle.textContent = 'Add New Mission';
+      missionForm.reset();
+      missionIdInput.value = '';
+      submitBtn.textContent = 'Add Mission';
+      cancelBtn.style.display = 'none';
+    }
+
+    function populateServiceIdDropdown() {
+      fetch('http://localhost:3001/api/soldiers') // Replace with the actual API endpoint for soldiers
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to fetch service IDs');
+          }
+          return response.json();
+        })
+        .then(data => {
+          const serviceidInput = document.getElementById('serviceid');
+          serviceidInput.innerHTML = data.map(soldier =>
+            `<option value="${soldier.serviceid}">${soldier.serviceid} (${soldier.rank})</option>`
+          ).join('');
+        })
+        .catch(error => console.error('Error fetching service IDs:', error));
+    }
+
+    function populateAssignmentIdDropdown() {
+      fetch('http://localhost:3001/api/assignments') // Replace with the actual API endpoint for assignments
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to fetch assignment IDs');
+          }
+          return response.json();
+        })
+        .then(data => {
+          const assignmentIdInput = document.getElementById('assignment_id');
+          assignmentIdInput.innerHTML = data.map(assignment =>
+            `<option value="${assignment.assignment_id}">${assignment.assignment_id}</option>`
+          ).join('');
+        })
+        .catch(error => console.error('Error fetching assignment IDs:', error));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      populateServiceIdDropdown(); // Fetch and populate Service IDs
+      populateAssignmentIdDropdown(); // Fetch and populate Assignment IDs
+      fetchMissions(); // Fetch and render missions
+    });
+  </script>
+</body>
+</html>
