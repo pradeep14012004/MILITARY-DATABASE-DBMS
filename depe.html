@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Military Dependents Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1c1c1c; /* Dark background */
+            color: #fff; /* White text */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #2b2b2b; /* Darker container background */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .tabs button {
+            background-color: #004080;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .tabs button.active {
+            background-color: #002d5a;
+        }
+
+        .tabs button:hover {
+            background-color: #003d73;
+        }
+
+        .form-container {
+            background-color: #333; /* Form background */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 4px;
+            background-color: #222;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px #4CAF50;
+        }
+
+        button {
+            background-color: #004080;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #003d73;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #444;
+            padding: 10px;
+            text-align: left;
+            color: #fff;
+        }
+
+        th {
+            background-color: #004080;
+        }
+
+        tr:nth-child(even) {
+            background-color: #2b2b2b;
+        }
+
+        tr:hover {
+            background-color: #444;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Military Dependents</h1>
+
+        <div class="tabs">
+            <button class="active" onclick="showForm()">Add New Dependent</button>
+            <button onclick="showTable()">View Dependents</button>
+        </div>
+
+        <div class="form-container" id="formSection">
+            <h2>Add New Dependent</h2>
+            <form id="dependentForm">
+                <div class="form-group">
+                    <label for="serviceid">Service ID:</label>
+                    <select id="serviceid" required>
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" placeholder="Enter dependent's name" required>
+                </div>
+                <div class="form-group">
+                    <label for="relationship">Relationship:</label>
+                    <select id="relationship" required>
+                        <option value="">Select Relationship</option>
+                        <option value="Spouse">Spouse/Fiance</option>
+                        <option value="Child">Child</option>
+                        <option value="Parent">Parent</option>
+                        <option value="Sibling">Sibling</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="date_of_birth">Date of Birth:</label>
+                    <input type="date" id="date_of_birth">
+                </div>
+                <button type="submit" id="submitBtn">Add Dependent</button>
+            </form>
+        </div>
+
+        <div class="form-container" id="tableSection" style="display: none;">
+            <h2>Dependents List</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Service ID</th>
+                        <th>Name</th>
+                        <th>Relationship</th>
+                        <th>Date of Birth</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="dependentsTable">
+                    <!-- Rows will be dynamically populated -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let dependents = JSON.parse(localStorage.getItem('dependents')) || [];
+        let currentDependentId = dependents.length > 0 ? Math.max(...dependents.map(d => d.dependent_id)) + 1 : 1;
+        let editingId = null;
+
+        document.getElementById('dependentForm').addEventListener('submit', handleSubmit);
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            populateServiceIdDropdown(); // Fetch and populate Service IDs
+            fetchDependents(); // Fetch and render the dependents table
+        });
+
+        function handleSubmit(e) {
+            e.preventDefault();
+
+            const dependentData = {
+                serviceid: parseInt(document.getElementById('serviceid').value),
+                name: document.getElementById('name').value.trim(),
+                relationship: document.getElementById('relationship').value,
+                date_of_birth: document.getElementById('date_of_birth').value || null
+            };
+
+            const method = editingId ? 'PUT' : 'POST';
+            const url = editingId ? `http://localhost:3001/api/dependents/${editingId}` : 'http://localhost:3001/api/dependents';
+
+            fetch(url, {
+                method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dependentData),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to save dependent');
+                    }
+                    return response.json();
+                })
+                .then(message => {
+                    alert(message.message);
+                    fetchDependents(); // Refresh the table
+                    clearForm();
+                })
+                .catch(error => console.error('Error saving dependent:', error));
+        }
+
+        function validateDependent(data) {
+            if (!data.serviceid || !data.name || !data.relationship) {
+                alert('Please fill in all required fields');
+                return false;
+            }
+            if (isNaN(data.serviceid)) {
+                alert('Soldier ID must be a valid number');
+                return false;
+            }
+            return true;
+        }
+
+        function calculateAge(dateString) {
+            if (!dateString) return '-';
+            const birthDate = new Date(dateString);
+            const ageDiff = Date.now() - birthDate.getTime();
+            const ageDate = new Date(ageDiff);
+            return Math.abs(ageDate.getUTCFullYear() - 1970);
+        }
+
+        function editDependent(id) {
+            const dependent = dependents.find(d => d.dependent_id === id);
+            document.getElementById('serviceid').value = dependent.serviceid;
+            document.getElementById('name').value = dependent.name;
+            document.getElementById('relationship').value = dependent.relationship;
+            document.getElementById('date_of_birth').value = dependent.date_of_birth || '';
+            editingId = id;
+            document.getElementById('submitBtn').textContent = 'Update Dependent';
+        }
+
+        function deleteDependent(id) {
+            if (confirm('Permanently delete this dependent record?')) {
+                fetch(`http://localhost:3001/api/dependents/${id}`, {
+                    method: 'DELETE',
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to delete dependent');
+                        }
+                        return response.json();
+                    })
+                    .then(message => {
+                        alert(message.message);
+                        fetchDependents(); // Refresh the table
+                    })
+                    .catch(error => console.error('Error deleting dependent:', error));
+            }
+        }
+
+        function applyFilters() {
+            const serviceId = document.getElementById('filterServiceId').value;
+            const relationship = document.getElementById('filterRelationship').value;
+
+            let filtered = dependents.filter(d => {
+                const matchesService = serviceId ? d.serviceid == serviceId : true;
+                const matchesRelationship = relationship ? d.relationship === relationship : true;
+                return matchesService && matchesRelationship;
+            });
+
+            renderTable(filtered);
+        }
+
+        function fetchDependents() {
+            fetch('http://localhost:3001/api/dependents')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch dependents');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    dependents = data;
+                    renderTable();
+                })
+                .catch(error => console.error('Error fetching dependents:', error));
+        }
+
+        function renderTable(data = dependents) {
+            const tbody = document.getElementById('dependentsTable');
+            tbody.innerHTML = '';
+
+            data.forEach(dependent => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${dependent.serviceid}</td>
+                    <td>${dependent.name}</td>
+                    <td>${dependent.relationship}</td>
+                    <td>${dependent.date_of_birth ? new Date(dependent.date_of_birth).toLocaleDateString() : '-'}</td>
+                    <td class="actions">
+                        <button onclick="editDependent(${dependent.dependent_id})">Edit</button>
+                        <button class="delete-btn" onclick="deleteDependent(${dependent.dependent_id})">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function clearForm() {
+            document.getElementById('dependentForm').reset();
+            editingId = null;
+            document.getElementById('submitBtn').textContent = 'Add Dependent';
+        }
+
+        function showForm() {
+            document.getElementById('formSection').style.display = 'block';
+            document.getElementById('tableSection').style.display = 'none';
+        }
+
+        function showTable() {
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('tableSection').style.display = 'block';
+        }
+
+        function populateServiceIdDropdown() {
+            fetch('http://localhost:3001/api/soldiers') // Replace with the actual API endpoint for soldiers
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch service IDs');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const serviceidDropdown = document.getElementById('serviceid');
+                    serviceidDropdown.innerHTML = data.map(soldier =>
+                        `<option value="${soldier.serviceid}">${soldier.serviceid} (${soldier.rank})</option>`
+                    ).join('');
+                })
+                .catch(error => console.error('Error fetching service IDs:', error));
+        }
+    </script>
+</body>
+</html>
