@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Military DATABASE</title>
+    <style>
+        :root {
+            --primary-color: #3F51B5;
+            --secondary-color: #303F9F;
+            --accent-color: #FF4081;
+            --light-bg: #F5F5F5;
+            --dark-text: #333;
+            --light-text: #FFF;
+            --danger-color: #F44336;
+            --success-color: #4CAF50;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* General Styles */
+        body {
+            background-color: #000; /* Black background */
+            color: #fff; /* White text */
+            line-height: 1.6;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        header {
+            background-color: #111; /* Darker black for header */
+            color: #fff; /* White text */
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            background-color: #222; /* Dark gray for inactive tabs */
+            color: #fff; /* White text */
+            cursor: pointer;
+            border: 1px solid #444; /* Border for tabs */
+            transition: background-color 0.3s;
+        }
+        
+        .tab.active {
+            background-color: #444; /* Slightly lighter gray for active tab */
+            color: #fff; /* White text */
+        }
+        
+        .tab:hover:not(.active) {
+            background-color: #333; /* Hover effect for inactive tabs */
+        }
+        
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Forms */
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #fff; /* White text for labels */
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #444; /* Dark border */
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: #222; /* Dark background for inputs */
+            color: #fff; /* White text for inputs */
+        }
+        
+        button {
+            padding: 10px 15px;
+            background-color: #444; /* Dark button background */
+            color: #fff; /* White text */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #555; /* Lighter gray on hover */
+        }
+        
+        .btn-danger {
+            background-color: #d32f2f; /* Red for danger buttons */
+        }
+        
+        .btn-danger:hover {
+            background-color: #b71c1c; /* Darker red on hover */
+        }
+        
+        .btn-success {
+            background-color: #388E3C; /* Green for success buttons */
+        }
+        
+        .btn-success:hover {
+            background-color: #2E7D32; /* Darker green on hover */
+        }
+        
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #222; /* Dark background for table */
+            color: #fff; /* White text for table */
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #444; /* Darker border for rows */
+        }
+        
+        th {
+            background-color: #333; /* Darker header background */
+            color: #fff; /* White text for headers */
+        }
+        
+        tr:nth-child(even) {
+            background-color: #2a2a2a; /* Slightly lighter gray for even rows */
+        }
+        
+        tr:hover {
+            background-color: #333; /* Hover effect for rows */
+        }
+        
+        /* Notification */
+        .notification {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            color: #fff; /* White text */
+            display: none;
+        }
+        
+        .notification.success {
+            background-color: #388E3C; /* Green for success notifications */
+        }
+        
+        .notification.error {
+            background-color: #d32f2f; /* Red for error notifications */
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>MILITARY DATABASE</h1>
+        </header>
+        
+        <div class="notification" id="notification"></div>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="view">View Units</div>
+            <div class="tab" data-tab="add">Add Unit</div>
+            <div class="tab" data-tab="edit">Edit Unit</div>
+            <div class="tab" data-tab="delete">Delete Unit</div>
+            <div class="tab" data-tab="hierarchy">Unit Hierarchy</div>
+        </div>
+        
+        <!-- View Units Tab -->
+        <div class="tab-content active" id="view-tab">
+            <div class="table-container">
+                <h2>Military Units</h2>
+                <table id="units-table">
+                    <thead>
+                        <tr>
+                            <th>Unit ID</th>
+                            <th>Unit Name</th>
+                            <th>Unit Type</th>
+                            <th>Parent Unit</th>
+                            <th>Location</th>
+                            <th>Commander</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="units-data">
+                        <!-- Data will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Add Unit Tab -->
+        <div class="tab-content" id="add-tab">
+            <h2>Add New Military Unit</h2>
+            <form id="add-unit-form">
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="unit-id">Unit ID:</label>
+                            <input type="number" id="unit-id" placeholder="Enter Unit ID" required>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="unit-name">Unit Name:</label>
+                            <input type="text" id="unit-name" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="unit-type">Unit Type:</label>
+                            <select id="unit-type" required>
+                                <option value="">-- Select Unit Type --</option>
+                                <option value="Division">Division</option>
+                                <option value="Brigade">Brigade</option>
+                                <option value="Battalion">Battalion</option>
+                                <option value="Company">Company</option>
+                                <option value="Platoon">Platoon</option>
+                                <option value="Squad">Squad</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="location">Location:</label>
+                            <input type="text" id="location">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="commander">Commander (ID):</label>
+                            <input type="number" id="commander" placeholder="Enter personnel ID of commander">
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn-success">Add Unit</button>
+            </form>
+        </div>
+        
+        <!-- Edit Unit Tab -->
+        <div class="tab-content" id="edit-tab">
+            <h2>Edit Military Unit</h2>
+            <div class="form-group">
+                <label for="edit-select-unit">Select Unit to Edit:</label>
+                <select id="edit-select-unit">
+                    <option value="">-- Select a Unit --</option>
+                    <!-- Units will be populated dynamically -->
+                </select>
+            </div>
+            
+            <form id="edit-unit-form">
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="edit-unit-id">Unit ID:</label>
+                            <input type="number" id="edit-unit-id" readonly>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="edit-unit-name">Unit Name:</label>
+                            <input type="text" id="edit-unit-name" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="edit-unit-type">Unit Type:</label>
+                            <select id="edit-unit-type" required>
+                                <option value="">-- Select Unit Type --</option>
+                                <option value="Division">Division</option>
+                                <option value="Brigade">Brigade</option>
+                                <option value="Battalion">Battalion</option>
+                                <option value="Company">Company</option>
+                                <option value="Platoon">Platoon</option>
+                                <option value="Squad">Squad</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="edit-location">Location:</label>
+                            <input type="text" id="edit-location">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="edit-commander">Commander (ID):</label>
+                            <input type="number" id="edit-commander" placeholder="Enter personnel ID of commander">
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn-success">Update Unit</button>
+            </form>
+        </div>
+        
+        <!-- Delete Unit Tab -->
+        <div class="tab-content" id="delete-tab">
+            <h2>Delete Military Unit</h2>
+            <div class="form-group">
+                <label for="delete-select-unit">Select Unit to Delete:</label>
+                <select id="delete-select-unit">
+                    <option value="">-- Select a Unit --</option>
+                    <!-- Units will be populated dynamically -->
+                </select>
+            </div>
+            
+            <div id="unit-to-delete-info" class="form-group" style="margin-top: 20px;">
+                <!-- Unit info will be displayed here -->
+            </div>
+            
+            <div class="form-group" id="delete-warning" style="display: none; color: var(--danger-color);">
+                <p><strong>Warning:</strong> This unit has child units. Deleting it will also delete all child units!</p>
+                <p>Child units that will be deleted:</p>
+                <ul id="child-units-list"></ul>
+            </div>
+            
+            <button id="confirm-delete" class="btn-danger">Confirm Delete</button>
+        </div>
+        
+        <!-- Unit Hierarchy Tab -->
+        <div class="tab-content" id="hierarchy-tab">
+            <h2>Unit Hierarchy</h2>
+            <div class="unit-hierarchy">
+                <div class="tree-view" id="hierarchy-tree">
+                    <!-- Hierarchy will be displayed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Mock database for units
+        let units = [];
+        let nextUnitId = 1;
+        
+        // Mock database for personnel (for commander selection)
+        let personnel = [];
+        
+        // Add personnel dynamically based on user input
+        function addPersonnel(rank, name) {
+            const newPersonnel = {
+            id: personnel.length + 1,
+            rank: rank,
+            name: name
+            };
+            personnel.push(newPersonnel);
+        }
+        
+        // Utility functions
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Tab functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and tab contents
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                const tabName = tab.getAttribute('data-tab');
+                document.getElementById(`${tabName}-tab`).classList.add('active');
+                
+                // If hierarchy tab, refresh the hierarchy view
+                if (tabName === 'hierarchy') {
+                    renderUnitHierarchy();
+                }
+            });
+        });
+        
+        // Refresh units table
+        function refreshUnitsTable() {
+            const tableBody = document.getElementById('units-data');
+            tableBody.innerHTML = ''; // Clear the table before repopulating
+
+            units.forEach((unit) => {
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+                    <td>${unit.unit_id}</td>
+                    <td>${unit.unit_name}</td>
+                    <td>${unit.unit_type}</td>
+                    <td>${unit.parent_unit_id || 'N/A'}</td>
+                    <td>${unit.location || 'Not Specified'}</td>
+                    <td>${unit.commander_id || 'Not Assigned'}</td>
+                    <td>
+                        <button class="view-btn" onclick="viewUnitDetails(${unit.unit_id})">View</button>
+                        <button class="edit-btn" onclick="editUnit(${unit.unit_id})">Edit</button>
+                        <button class="delete-btn" onclick="deleteUnit(${unit.unit_id})">Delete</button>
+                    </td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // View unit details
+        function viewUnitDetails(unitId) {
+            const unit = units.find(u => u.unit_id === unitId);
+            if (!unit) return;
+
+            alert(`
+                Unit ID: ${unit.unit_id}
+                Unit Name: ${unit.unit_name}
+                Unit Type: ${unit.unit_type}
+                Location: ${unit.location || "Not Specified"}
+                Commander ID: ${unit.commander_id || "Not Assigned"}
+            `);
+        }
+        
+        // Update select options in add, edit and delete forms
+        function updateSelectOptions() {
+            const editSelectUnit = document.getElementById('edit-select-unit');
+            const deleteSelectUnit = document.getElementById('delete-select-unit');
+            
+            // Clear existing options except the first one
+            editSelectUnit.innerHTML = '<option value="">-- Select a Unit --</option>';
+            deleteSelectUnit.innerHTML = '<option value="">-- Select a Unit --</option>';
+            
+            units.forEach(unit => {
+                // Add to unit selection dropdowns
+                const unitOption = document.createElement('option');
+                unitOption.value = unit.unit_id;
+                unitOption.textContent = `${unit.unit_id} - ${unit.unit_name} (${unit.unit_type})`;
+                
+                const deleteUnitOption = unitOption.cloneNode(true);
+                
+                editSelectUnit.appendChild(unitOption);
+                deleteSelectUnit.appendChild(deleteUnitOption);
+            });
+        }
+        
+        // Check for circular reference in parent-child relationship
+        function wouldCreateCircularReference(unitId, parentId) {
+            // If no parent, there's no circular reference
+            if (!parentId) return false;
+            
+            // If the parent is the same as the unit, it's a circular reference
+            if (unitId === parentId) return true;
+            
+            // Check if any ancestor of the parent is the unit
+            let currentParentId = parentId;
+            const visited = new Set();
+            
+            while (currentParentId) {
+                // If we've seen this parent before, we have a cycle
+                if (visited.has(currentParentId)) return true;
+                visited.add(currentParentId);
+                
+                // If the current parent is the unit, we have a circular reference
+                if (currentParentId === unitId) return true;
+                
+                // Move up to the parent's parent
+                const parentUnit = units.find(u => u.unit_id === currentParentId);
+                if (!parentUnit) break;
+                
+                currentParentId = parentUnit.parent_unit_id;
+            }
+            
+            return false;
+        }
+        
+        // Find all descendant unit IDs
+        function findAllDescendants(unitId) {
+            const descendants = [];
+            
+            // Find direct children
+            const directChildren = units.filter(u => u.parent_unit_id === unitId);
+            
+            // For each child, add it and its descendants
+            directChildren.forEach(child => {
+                descendants.push(child.unit_id);
+                const childDescendants = findAllDescendants(child.unit_id);
+                descendants.push(...childDescendants);
+            });
+            
+            return descendants;
+        }
+        
+        // Render unit hierarchy as a tree
+        function renderUnitHierarchy() {
+            const treeContainer = document.getElementById('hierarchy-tree');
+            treeContainer.innerHTML = '';
+            
+            // Find top-level units (no parent)
+            const topLevelUnits = units.filter(u => !u.parent_unit_id);
+            
+            if (topLevelUnits.length === 0) {
+                treeContainer.innerHTML = '<p>No units defined yet.</p>';
+                return;
+            }
+            
+            const ul = document.createElement('ul');
+            
+            topLevelUnits.forEach(unit => {
+                const li = document.createElement('li');
+                li.textContent = `${unit.unit_name} (${unit.unit_type})`;
+                
+                // Recursively add children
+                addChildUnits(li, unit.unit_id);
+                
+                ul.appendChild(li);
+            });
+            
+            treeContainer.appendChild(ul);
+        }
+        
+        // Helper function to add child units to the hierarchy tree
+        function addChildUnits(parentElement, parentUnitId) {
+            const childUnits = units.filter(u => u.parent_unit_id === parentUnitId);
+            
+            if (childUnits.length > 0) {
+                const ul = document.createElement('ul');
+                
+                childUnits.forEach(unit => {
+                    const li = document.createElement('li');
+                    li.textContent = `${unit.unit_name} (${unit.unit_type})`;
+                    
+                    // Recursively add children
+                    addChildUnits(li, unit.unit_id);
+                    
+                    ul.appendChild(li);
+                });
+                
+                parentElement.appendChild(ul);
+            }
+        }
+        
+        // Add unit form submission
+        document.getElementById('add-unit-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const data = {
+                unit_id: parseInt(document.getElementById('unit-id').value),
+                unit_name: document.getElementById('unit-name').value,
+                unit_type: document.getElementById('unit-type').value,
+                location: document.getElementById('location').value,
+                commander_id: parseInt(document.getElementById('commander').value) || null,
+            };
+
+            fetch('http://localhost:3001/api/units', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('Failed to add unit');
+                    }
+                    return response.text();
+                })
+                .then((message) => {
+                    alert(message);
+                    fetchUnits(); // Refresh the table with the updated data
+                    document.getElementById('add-unit-form').reset(); // Clear the form
+                })
+                .catch((error) => console.error('Error adding unit:', error));
+        });
+        
+        // Edit unit selection change
+        document.getElementById('edit-select-unit').addEventListener('change', (e) => {
+            const unitId = parseInt(e.target.value);
+            if (!unitId) return;
+
+            const unit = units.find(u => u.unit_id === unitId);
+            if (unit) {
+                document.getElementById('edit-unit-id').value = unit.unit_id;
+                document.getElementById('edit-unit-name').value = unit.unit_name;
+                document.getElementById('edit-unit-type').value = unit.unit_type;
+                document.getElementById('edit-location').value = unit.location || '';
+                document.getElementById('edit-commander').value = unit.commander_id || '';
+            }
+        });
+        
+        // Edit unit form submission
+        document.getElementById('edit-unit-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const unitId = parseInt(document.getElementById('edit-unit-id').value);
+            const data = {
+                unit_name: document.getElementById('edit-unit-name').value,
+                unit_type: document.getElementById('edit-unit-type').value,
+                location: document.getElementById('edit-location').value,
+                commander_id: parseInt(document.getElementById('edit-commander').value) || null,
+            };
+
+            fetch(`http://localhost:3001/api/units/${unitId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('Failed to update unit');
+                    }
+                    return response.text();
+                })
+                .then((message) => {
+                    alert(message);
+                    fetchUnits(); // Refresh the table with the updated data
+                })
+                .catch((error) => console.error('Error editing unit:', error));
+        });
+        
+        // Delete unit selection change
+        document.getElementById('delete-select-unit').addEventListener('change', (e) => {
+            const unitId = parseInt(e.target.value);
+            if (!unitId) return;
+
+            const unit = units.find(u => u.unit_id === unitId);
+            if (unit) {
+                document.getElementById('unit-to-delete-info').innerHTML = `
+                    <p><strong>Unit ID:</strong> ${unit.unit_id}</p>
+                    <p><strong>Unit Name:</strong> ${unit.unit_name}</p>
+                    <p><strong>Unit Type:</strong> ${unit.unit_type}</p>
+                    <p><strong>Location:</strong> ${unit.location || "Not Specified"}</p>
+                    <p><strong>Commander ID:</strong> ${unit.commander_id || "Not Assigned"}</p>
+                `;
+            }
+        });
+
+        // Confirm delete button
+        document.getElementById('confirm-delete').addEventListener('click', () => {
+            const unitId = parseInt(document.getElementById('delete-select-unit').value);
+
+            if (!unitId) {
+                alert('Please select a unit to delete.');
+                return;
+            }
+
+            fetch(`http://localhost:3001/api/units/${unitId}`, {
+                method: 'DELETE',
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('Failed to delete unit');
+                    }
+                    return response.text();
+                })
+                .then((message) => {
+                    alert(message);
+                    fetchUnits(); // Refresh the table with the updated data
+                })
+                .catch((error) => console.error('Error deleting unit:', error));
+        });
+
+        // Fetch units from the server
+        function fetchUnits() {
+            fetch('http://localhost:3001/api/units') // Replace with your backend URL
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch units');
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    units = data; // Update the global `units` array
+                    refreshUnitsTable(); // Refresh the table with the fetched data
+                    updateSelectOptions(); // Update dropdowns for edit/delete
+                    renderUnitHierarchy(); // Update the hierarchy view
+                })
+                .catch((error) => console.error('Error fetching units:', error));
+        }
+
+        // Initial setup
+        document.querySelector('.tab[data-tab="view"]').click(); // Default to view tab
+        fetchUnits(); // Fetch units from the server
+
+        updateSelectOptions();
+        renderUnitHierarchy(); // Initial render of the hierarchy tree
+
+    </script>
+</body>
+</html>
