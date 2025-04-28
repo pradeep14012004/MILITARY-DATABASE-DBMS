@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Military Equipment Assignments</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1c1c1c;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: #2b2b2b;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #333;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .form-section h2 {
+            margin-bottom: 20px;
+            font-size: 20px;
+            color: #fff;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 4px;
+            background-color: #222;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px #4CAF50;
+        }
+
+        button {
+            background-color: #004080;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #002d5a;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #444;
+            padding: 12px;
+            text-align: left;
+            color: #fff;
+        }
+
+        th {
+            background-color: #004080;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #2b2b2b;
+        }
+
+        tr:hover {
+            background-color: #444;
+        }
+
+        .actions button {
+            margin-right: 5px;
+            padding: 5px 10px;
+            font-size: 0.9em;
+            border-radius: 4px;
+        }
+
+        .delete-btn {
+            background-color: #cc0000;
+        }
+
+        .delete-btn:hover {
+            background-color: #b30000;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .active {
+            background-color: #00cc00;
+        }
+
+        .returned {
+            background-color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Military Equipment Assignments</h1>
+        
+        <!-- Assignment Form -->
+        <div class="form-section">
+            <h2>New Assignment Record</h2>
+            <form id="assignmentForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="serviceid">Soldier ID:</label>
+                        <select id="serviceid" required>
+                            <!-- Options will be populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="equipment_id">Equipment ID:</label>
+                        <select id="equipment_id" required>
+                            <!-- Options will be populated dynamically -->
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="date_assigned">Assignment Date:</label>
+                        <input type="date" id="date_assigned" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="date_returned">Return Date:</label>
+                        <input type="date" id="date_returned">
+                    </div>
+                </div>
+                
+                <button type="submit" id="submitBtn">Create Assignment</button>
+            </form>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="form-section">
+            <h2>Filter Assignments</h2>
+            <div class="filter-section">
+                <div class="form-group">
+                    <label>Soldier ID:</label>
+                    <input type="number" id="filterSoldierId">
+                </div>
+                <div class="form-group">
+                    <label>Equipment ID:</label>
+                    <input type="number" id="filterEquipmentId">
+                </div>
+                <div class="form-group">
+                    <label>From Date:</label>
+                    <input type="date" id="filterDateFrom">
+                </div>
+                <div class="form-group">
+                    <label>To Date:</label>
+                    <input type="date" id="filterDateTo">
+                </div>
+            </div>
+            <button onclick="applyFilters()">Apply Filters</button>
+        </div>
+
+        <!-- Assignments Table -->
+        <table id="assignmentsTable">
+            <thead>
+                <tr>
+                    <th>Assignment ID</th>
+                    <th>Soldier ID</th>
+                    <th>Equipment ID</th>
+                    <th>Date Assigned</th>
+                    <th>Date Returned</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- Assignment rows will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        let assignments = JSON.parse(localStorage.getItem('assignments')) || [];
+        let currentAssignmentId = assignments.length > 0 ? Math.max(...assignments.map(a => a.assignment_id)) + 1 : 1;
+        let editingId = null;
+
+        document.getElementById('assignmentForm').addEventListener('submit', handleSubmit);
+        renderTable();
+        populateSoldierDropdown();
+        populateEquipmentDropdown();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            populateSoldierDropdown(); // Fetch and populate Soldier IDs
+        });
+
+        function handleSubmit(e) {
+            e.preventDefault();
+
+            const serviceid = parseInt(document.getElementById('serviceid').value);
+            const equipment_id = parseInt(document.getElementById('equipment_id').value);
+            const date_assigned = document.getElementById('date_assigned').value;
+            const date_returned = document.getElementById('date_returned').value;
+
+            if (!serviceid || !equipment_id || !date_assigned) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            const assignmentData = { serviceid, equipment_id, date_assigned, date_returned: date_returned || null };
+
+            if (editingId === null) {
+                // Add new assignment
+                fetch('http://localhost:3001/api/assignments', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(assignmentData),
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to add assignment');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        alert('Assignment added successfully');
+                        fetchAndRenderTable(); // Refresh the table
+                        clearForm();
+                    })
+                    .catch(error => console.error('Error adding assignment:', error));
+            } else {
+                // Update existing assignment
+                fetch(`http://localhost:3001/api/assignments/${editingId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(assignmentData),
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to update assignment');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        alert('Assignment updated successfully');
+                        fetchAndRenderTable(); // Refresh the table
+                        clearForm();
+                    })
+                    .catch(error => console.error('Error updating assignment:', error));
+            }
+        }
+
+        function editAssignment(id) {
+            const assignment = assignments.find(a => a.assignment_id === id);
+            document.getElementById('serviceid').value = assignment.serviceid;
+            document.getElementById('equipment_id').value = assignment.equipment_id;
+            document.getElementById('date_assigned').value = assignment.date_assigned;
+            document.getElementById('date_returned').value = assignment.date_returned || '';
+            editingId = id;
+            document.getElementById('submitBtn').textContent = 'Update Assignment';
+        }
+
+        function deleteAssignment(id) {
+            if (confirm('Permanently delete this assignment record?')) {
+                fetch(`http://localhost:3001/api/assignments/${id}`, {
+                    method: 'DELETE',
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to delete assignment');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        alert('Assignment deleted successfully');
+                        fetchAndRenderTable(); // Refresh the table
+                    })
+                    .catch(error => console.error('Error deleting assignment:', error));
+            }
+        }
+
+        function applyFilters() {
+            const soldierId = document.getElementById('filterSoldierId').value;
+            const equipmentId = document.getElementById('filterEquipmentId').value;
+            const dateFrom = document.getElementById('filterDateFrom').value;
+            const dateTo = document.getElementById('filterDateTo').value;
+
+            let filtered = assignments;
+
+            if (soldierId) filtered = filtered.filter(a => a.serviceid == soldierId);
+            if (equipmentId) filtered = filtered.filter(a => a.equipment_id == equipmentId);
+            if (dateFrom) filtered = filtered.filter(a => new Date(a.date_assigned) >= new Date(dateFrom));
+            if (dateTo) filtered = filtered.filter(a => new Date(a.date_assigned) <= new Date(dateTo));
+
+            renderTable(filtered);
+        }
+
+        function renderTable(data = assignments) {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            data.forEach(assignment => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${assignment.assignment_id}</td>
+                    <td>${assignment.serviceid}</td>
+                    <td>${assignment.equipment_id}</td>
+                    <td>${new Date(assignment.date_assigned).toLocaleDateString()}</td>
+                    <td>${assignment.date_returned ? new Date(assignment.date_returned).toLocaleDateString() : '-'}</td>
+                    <td>
+                        <span class="status-indicator ${assignment.date_returned ? 'returned' : 'active'}"></span>
+                        ${assignment.date_returned ? 'Returned' : 'Active'}
+                    </td>
+                    <td class="actions">
+                        <button onclick="editAssignment(${assignment.assignment_id})">Edit</button>
+                        <button class="delete-btn" onclick="deleteAssignment(${assignment.assignment_id})">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function clearForm() {
+            document.getElementById('assignmentForm').reset();
+            editingId = null;
+            document.getElementById('submitBtn').textContent = 'Create Assignment';
+        }
+
+        function saveToLocalStorage() {
+            localStorage.setItem('assignments', JSON.stringify(assignments));
+            localStorage.setItem('currentAssignmentId', currentAssignmentId);
+        }
+
+        function fetchAndRenderTable() {
+            fetch('http://localhost:3001/api/assignments')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch assignments');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    renderTable(data);
+                })
+                .catch(error => console.error('Error fetching assignments:', error));
+        }
+
+        function populateSoldierDropdown() {
+            fetch('http://localhost:3001/api/soldiers') // Replace with the actual API endpoint for soldiers
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch soldiers');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const soldierDropdown = document.getElementById('serviceid');
+                    soldierDropdown.innerHTML = data.map(soldier =>
+                        `<option value="${soldier.serviceid}">${soldier.serviceid} (${soldier.rank})</option>`
+                    ).join('');
+                })
+                .catch(error => console.error('Error fetching soldiers:', error));
+        }
+
+        function populateEquipmentDropdown() {
+            fetch('http://localhost:3001/api/equipment') // Replace with the actual API endpoint for equipment
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch equipment');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const equipmentDropdown = document.getElementById('equipment_id');
+                    equipmentDropdown.innerHTML = data.map(equipment =>
+                        `<option value="${equipment.equipment_id}">${equipment.equipment_id} (${equipment.type})</option>`
+                    ).join('');
+                })
+                .catch(error => console.error('Error fetching equipment:', error));
+        }
+
+        fetchAndRenderTable();
+    </script>
+</body>
+</html>
