@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Military Database</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #000;
+            border-bottom: 1px solid #333;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            margin-right: 15px;
+        }
+
+        .agency-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+
+        .top-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .top-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: center;
+            background-color: #000;
+            padding: 15px 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .search-container {
+            display: flex;
+            max-width: 300px;
+            border: 1px solid #444;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-left: 20px;
+        }
+
+        .search-input {
+            flex-grow: 1;
+            padding: 10px;
+            border: none;
+            background-color: transparent;
+            color: #fff;
+        }
+
+        .search-button {
+            background-color: transparent;
+            border: none;
+            padding: 0 15px;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .hero {
+            display: flex;
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            width: 50%;
+            padding: 80px 40px;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: 50px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #ccc;
+            max-width: 520px;
+        }
+
+        .hero-description {
+            margin-top: 30px;
+            max-width: 520px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .hero-image {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 60%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.7;
+        }
+
+        .wave-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(0,0,0,0.9) 40%, rgba(0,0,0,0.5) 70%, rgba(0,0,0,0.3) 100%);
+            z-index: 1;
+        }
+
+        /* Forces Section */
+        .forces-section {
+            padding: 60px 40px;
+            background-color: #0a0a0a;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 40px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .forces-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .force-card {
+            flex: 1;
+            min-width: 300px;
+            background-color: #111;
+            border: 1px solid #333;
+            border-radius: 5px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .force-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .force-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .force-content {
+            padding: 20px;
+        }
+
+        .force-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .force-description {
+            font-size: 1rem;
+            color: #ccc;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .force-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #d00;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 3px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .force-button:hover {
+            background-color: #f00;
+        }
+
+        /* Units Section */
+        .units-section {
+            padding: 60px 0;
+            background-color: #000;
+            text-align: center;
+        }
+
+        .branch-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .branch-button {
+            padding: 12px 25px;
+            background-color: #111;
+            border: 2px solid #333;
+            color: #fff;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .branch-button:hover {
+            background-color: #222;
+        }
+
+        .branch-button.active {
+            background-color: #d00;
+            border-color: #d00;
+        }
+
+        .units-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 0 40px;
+            margin-top: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .unit-card {
+            width: 220px;
+            background-color: #111;
+            border: 1px solid #333;
+            border-radius: 5px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .unit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .unit-card.hidden {
+            display: none;
+        }
+
+        .unit-card.fade-out {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        .unit-emblem {
+            width: 100%;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #0d0d0d;
+            padding: 15px;
+        }
+
+        .unit-emblem img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .unit-info {
+            padding: 15px;
+        }
+
+        .unit-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .unit-motto {
+            font-size: 0.9rem;
+            color: #aaa;
+            font-style: italic;
+            margin-bottom: 12px;
+        }
+
+        .unit-location {
+            font-size: 0.8rem;
+            color: #777;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .view-details {
+            display: block;
+            width: 100%;
+            padding: 10px 0;
+            background-color: #222;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .view-details:hover {
+            background-color: #d00;
+        }
+
+        .unit-details-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90%;
+            background-color: #111;
+            border: 1px solid #333;
+            border-radius: 5px;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: #fff;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #d00;
+            border-radius: 50%;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 20px;
+        }
+
+        .modal-emblem {
+            width: 100px;
+            height: 100px;
+        }
+
+        .modal-emblem img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .modal-title h3 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .modal-title p {
+            font-style: italic;
+            color: #aaa;
+        }
+
+        .modal-body {
+            margin-bottom: 30px;
+        }
+
+        .info-section {
+            margin-bottom: 20px;
+        }
+
+        .info-section h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #d00;
+        }
+
+        .info-section p, .info-section ul {
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        .info-section ul {
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+
+        .footer {
+            background-color: #000;
+            padding: 30px 40px;
+            text-align: center;
+            border-top: 1px solid #333;
+        }
+
+        .footer p {
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        /* Dropdown styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-toggle {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: #111;
+            border: 1px solid #333;
+            border-radius: 5px;
+            padding: 10px 0;
+            z-index: 1000;
+            min-width: 200px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 20px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #222;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-content {
+                width: 100%;
+                padding: 40px 20px;
+            }
+
+            .hero-title {
+                font-size: 32px;
+            }
+
+            .hero-image {
+                display: none;
+            }
+
+            .branch-selector {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .branch-button {
+                width: 80%;
+            }
+
+            .modal-header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-section">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYKV9miJXniudkZdH-minGBMuEf2QjvH2EsYv-gnbPT4hTFfvtITM2-yXq3jPm-ITqm4U&usqp=CAU" alt="MIA Logo" class="logo">
+            <div class="agency-name">
+                MILITARY DATABASE<br>
+            </div>
+        </div>
+        <div class="top-links">
+            <a href="#">CONTACT</a>
+            <a href="report.html">REPORT INFORMATION</a>
+        </div>
+    </header>
+
+    <nav class="nav">
+        <div class="nav-links">
+            <a href="sold.html">SOLDIER</a>
+            <a href="unit.html">UNITS</a>
+            <a href="equip.html">EQUIPMENT</a>
+            <a href="assi.html">ASSIGNMENT</a>
+            <a href="miss.html">MISSION</a>
+            <div class="dropdown">
+                <a href="#" class="dropdown-toggle">RESOURCES</a>
+                <div class="dropdown-menu">
+                    
+                    <a href="train.html">Training</a>
+                    
+                    <a href="med.html">Medical Records</a>
+
+               
+                    <a href="depe.html">Dependents</a>
+                    <a href="pay.html">Payroll</a>
+                </div>
+            </div>
+        </div>
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search">
+            <button class="search-button">🔍</button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="wave-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">The modern battlefield begins with the database: organized, secure, and immediately accessible</h1>
+            <p class="hero-subtitle">We gather what others cannot gather and analyze what others cannot see</p>
+            <p class="hero-description">A military database is never merely storage—it's an active intelligence tool.</p>
+        </div>
+        <div class="hero-image">
+            <img src="https://akm-img-a-in.tosshub.com/indiatoday/images/story/202504/indian-army-145207207-16x9_0.png?VersionId=2T5mtY73nyT7WtVYbzGl2W9.Aqh6V_iL" alt="Military Operations">
+        </div>
+    </section>
+
+    <!-- Indian Forces Section -->
+    <section class="forces-section">
+        <h2 class="section-title">INDIAN ARMED FORCES</h2>
+        <div class="forces-container">
+            <!-- Army Card -->
+            <div class="force-card">
+                <img src=https://www.uxdt.nic.in/wp-content/uploads/2020/06/India_Army-Preview.png?x76268 alt="Indian Army" class="force-image">
+                <div class="force-content">
+                    <h3 class="force-title">Indian Army</h3>
+                    <p class="force-description">The Indian Army is the land-based branch of the Indian Armed Forces. Established in 1895, it is one of the largest standing armies in the world with over 1.4 million active personnel.</p>
+                    <a href="https://indianarmy.nic.in/" target="_blank" class="force-button" data-force="army">VIEW DETAILS</a>
+                </div>
+            </div>
+            
+            <!-- Navy Card -->
+            <div class="force-card">
+                <img src=https://www.financialexpress.com/wp-content/uploads/2022/09/imgonline-com-ua-resize-USMiY42wlt-1.jpg?w=620 alt="Indian Navy" class="force-image">
+                <div class="force-content">
+                    <h3 class="force-title">Indian Navy</h3>
+                    <p class="force-description">The Indian Navy is the naval branch of the Indian Armed Forces. With 67,252 personnel and 150 ships and submarines, it safeguards maritime borders and projects India's naval power across the Indo-Pacific region.</p>
+                    <a href="https://www.joinindiannavy.gov.in/" target="_blank" class="force-button" data-force="navy">VIEW DETAILS</a>
+                </div>
+            </div>
+            
+            <!-- Air Force Card -->
+            <div class="force-card">
+                <img src=https://i.pinimg.com/736x/45/4a/82/454a820e3f981261e517805ce161980f.jpg alt="Indian Air Force" class="force-image">
+                <div class="force-content">
+                    <h3 class="force-title">Indian Air Force</h3>
+                    <p class="force-description">The Indian Air Force is the air arm of the Indian Armed Forces. With approximately 170,000 personnel and 2,123 aircraft, it is the fourth largest air force in the world and maintains strategic air superiority.</p>
+                    <a href="https://indianairforce.nic.in/" target="_blank" class="force-button" data-force="airforce">VIEW DETAILS</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Units Section -->
+    <section class="units-section" id="units-section">
+        <h2 class="section-title">INDIAN MILITARY UNITS</h2>
+        
+        <div class="branch-selector">
+            <button class="branch-button active" data-branch="all">ALL UNITS</button>
+            <button class="branch-button" data-branch="army">ARMY</button>
+            <button class="branch-button" data-branch="navy">NAVY</button>
+            <button class="branch-button" data-branch="airforce">AIR FORCE</button>
+        </div>
+        
+        <div class="units-container" id="units-container">
+            <!-- Units will be dynamically added here by JavaScript -->
+        </div>
+    </section>
+
+    <!-- Unit Details Modal -->
+    <div class="unit-details-modal" id="unit-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">×</span>
+            <div class="modal-header">
+                <div class="modal-emblem">
+                    <img id="modal-emblem-img" src="/api/placeholder/100/100" alt="Unit Emblem">
+                </div>
+                <div class="modal-title">
+                    <h3 id="modal-unit-name">Unit Name</h3>
+                    <p id="modal-unit-motto">Unit Motto</p>
+                </div>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Content will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2025 Military Intelligence Agency. All rights reserved.</p>
+        
+    </footer>
+
+    <script>
+        // Session timeout after 15 minutes of inactivity
+let timeout;
+function resetTimer() {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+        sessionStorage.removeItem('authenticated');
+        window.location.href = 'index.html';
+    }, 900000); // 15 minutes
+}
+
+document.addEventListener('mousemove', resetTimer);
+document.addEventListener('keypress', resetTimer);
+resetTimer();
+        // Authentication check
+if(sessionStorage.getItem('authenticated') !== 'true') {
+    window.location.href = 'index.html';
+}
+// Prevent back navigation after logout
+window.history.pushState(null, null, window.location.href);
+window.onpopstate = function() {
+    if(sessionStorage.getItem('authenticated') !== 'true') {
+        window.history.go(1);
+    }
+};
+
+// Add logout functionality
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('logoutButton').addEventListener('click', function() {
+        sessionStorage.removeItem('authenticated');
+        window.location.href = 'index.html';
+    });
+});
+        // Unit data for all branches
+        const unitsData = {
+            army: [
+                {
+                    id: "army-1",
+                    name: "Rajputana Rifles",
+                    motto: "Veer Bhogya Vasundhara (The brave shall inherit the earth)",
+                    location: "Delhi Cantonment",
+                    emblem: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Rajputana_Rifles_Insignia_%28India%29.svg/1200px-Rajputana_Rifles_Insignia_%28India%29.svg.png",
+                    description: "The Rajputana Rifles is the most senior rifle regiment of the Indian Army. It was originally raised in 1921 as part of the British Indian Army, but its roots can be traced to 1775 during the British East India Company's rule.",
+                    emblem: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Rajputana_Rifles_Insignia_%28India%29.svg/1200px-Rajputana_Rifles_Insignia_%28India%29.svg.png",
+                    history: "The regiment was formed in 1921 after the First World War by the amalgamation of six regiments: 2nd Queen Victoria's Own Rajput Light Infantry, 4th Prince Albert Victor's Rajputs, 7th Duke of Connaught's Own Rajputs, 8th King George V's Own Rajputs, 11th Rajputs, and 16th Rajputs.",
+                    operations: ["Indo-Pakistan War of 1947", "Operation Polo", "Indo-Pakistan War of 1965", "Indo-Pakistan War of 1971", "Kargil War"],
+                    honors: ["9 Victoria Crosses", "4 Ashoka Chakras", "12 Maha Vir Chakras"]
+                },
+                {
+                    id: "army-2",
+                    name: "Gorkha Rifles",
+                    motto: "Kafar hunu bhanda marnu ramro (Better to die than be a coward)",
+                    location: "Shillong, Meghalaya",
+                    emblem: "https://www.hindustantimes.com/ht-img/img/2023/06/07/1600x900/11th-Gorkha-Rifles-Regiment---Sourced-_1686142426654.jpg",
+                    description: "The Gorkha Rifles are infantry regiments of the Indian Army composed primarily of Nepali Gurkhas. Renowned for their bravery, loyalty, and knife-fighting skills using the distinctive kukri, they have served with distinction in various conflicts.",
+                    history: "After independence, six of the ten Gurkha regiments remained with the British Army, while four were transferred to the Indian Army as part of the Tripartite Agreement between India, Nepal, and Britain in 1947.",
+                    operations: ["Indo-Pakistani War of 1947-48", "Sino-Indian War of 1962", "Indo-Pakistani War of 1965", "Indo-Pakistani War of 1971", "Kargil War"],
+                    honors: ["3 Param Vir Chakras", "33 Maha Vir Chakras", "84 Vir Chakras"]
+                },
+                {
+                    id: "army-3",
+                    name: "Parachute Regiment",
+                    motto: "Shatrujeet (Conqueror of enemies)",
+                    location: "Bengaluru, Karnataka",
+                    emblem: "https://mysnipersworld.wordpress.com/wp-content/uploads/2020/04/images-10.jpeg",
+                    description: "The Parachute Regiment is the parachute infantry regiment of the Indian Army. It is among the oldest airborne units in the world and the primary special forces unit of the Indian Army, specializing in various roles including hostage rescue and counter-terrorism operations.",
+                    history: "The regiment was formed in 1945 but traces its origins to the 50th Indian Parachute Brigade raised during World War II. Post-independence, it has evolved into an elite force with both regular airborne battalions and Special Forces battalions.",
+                    operations: ["Operation Cactus (Maldives)", "Operation Pawan (Sri Lanka)", "Kargil War", "Counter-insurgency operations in Jammu & Kashmir", "Counter-insurgency operations in Northeast India"],
+                    honors: ["4 Ashoka Chakras", "11 Maha Vir Chakras", "3 Kirti Chakras"]
+                },
+                {
+                    id: "army-4",
+                    name: "Sikh Regiment",
+                    motto: "Nischay Kar Apni Jeet Karon (With determination, I will be triumphant)",
+                    location: "Ramgarh Cantonment, Jharkhand",
+                    emblem: "https://upload.wikimedia.org/wikipedia/commons/d/d8/Sikh_Regiment_Logo.png",
+                    description: "The Sikh Regiment is an infantry regiment of the Indian Army. It is one of the highest decorated regiments in the Indian Army and has participated in all major conflicts involving India since its inception.",
+                    history: "The Sikh Regiment traces its origins to the 'Regiment of Ferozepore Sikhs' raised in 1846. After independence, the Sikh Regiment has continued its tradition of valor and sacrifice, fighting in every major conflict.",
+                    operations: ["Indo-Pakistani War of 1947-48", "Sino-Indian War", "Indo-Pakistani War of 1965", "Indo-Pakistani War of 1971", "Operation Meghdoot (Siachen Glacier)"],
+                    honors: ["5 Param Vir Chakras", "14 Maha Vir Chakras", "68 Vir Chakras"]
+                },
+                {
+                    id: "army-5",
+                    name: "Ladakh Scouts",
+                    motto: "Nokay Dokay Yudh Parivar (Warriors from the Mountains)",
+                    location: "Leh, Ladakh",
+                    emblem: "https://www.tuffmanindia.com/images/sponsors-logos/scouts.jpg",
+                    description: "The Ladakh Scouts is a regiment of the Indian Army, specializing in mountain warfare. The soldiers are primarily recruited from the Ladakhi ethnic group, who are naturally acclimatized to high altitudes and cold climates.",
+                    history: "The Ladakh Scouts was established in 1963 after the Sino-Indian War of 1962 as the 'Nubra Guards'. It was converted to a regular regiment of the Indian Army in 2000 after its exceptional performance during the Kargil War.",
+                    operations: ["Indo-Pakistani War of 1971", "Operation Meghdoot (Siachen)", "Kargil War", "Border defense along Line of Actual Control"],
+                    honors: ["1 Param Vir Chakra", "8 Maha Vir Chakras", "11 Vir Chakras"]
+                }
+            ],
+            navy: [
+                {
+                    id: "navy-1",
+                    name: "Western Naval Command",
+                    motto: "The Western Shield",
+                    location: "Mumbai, Maharashtra",
+                    emblem: "https://upload.wikimedia.org/wikipedia/commons/4/42/Western_Naval_Command_%28India%29.png",
+                    description: "The Western Naval Command is the sword arm of the Indian Navy and has the responsibility of safeguarding the western coast of India including the Arabian Sea and the western parts of the Indian Ocean Region.",
+                    history: "The Western Naval Command was established in 1968 when the Indian Navy was divided into three commands. It is headquartered at Mumbai and is the largest naval command of the Indian Navy.",
+                    operations: ["Indo-Pakistani War of 1971", "Operation Talwar during Kargil War", "Anti-piracy operations in the Gulf of Aden", "Humanitarian assistance and disaster relief operations"],
+                    assets: ["Aircraft carrier INS Vikramaditya", "Multiple guided-missile destroyers", "Frigates", "Submarines", "Naval air stations"]
+                },
+                {
+                    id: "navy-2",
+                    name: "Eastern Naval Command",
+                    motto: "The Eastern Anchor",
+                    location: "Visakhapatnam, Andhra Pradesh",
+                    emblem: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkptulgxfsBrZix0AfdgADqfueZNDpHk2oFQ&s",
+                    description: "The Eastern Naval Command is one of the three command-level formations of the Indian Navy, responsible for safeguarding India's eastern seaboard and the Bay of Bengal, extending into the strategic waters of the Indo-Pacific region.",
+                    history: "The Eastern Naval Command was established in 1971 and played a crucial role in the Indo-Pakistani War of 1971, especially in naval blockade operations that prevented Pakistani forces from evacuating from Bangladesh.",
+                    operations: ["Indo-Pakistani War of 1971", "Humanitarian and disaster relief operations during various cyclones", "Naval exercises with friendly nations in the Indo-Pacific"],
+                    assets: ["Aircraft carrier INS Vikrant", "Guided-missile destroyers", "Frigates", "Amphibious warfare vessels", "Submarine base at INS Virbahu"]
+                },
+                {
+                    id: "navy-3",
+                    name: "MARCOS (Marine Commandos)",
+                    motto: "The Few, The Fearless",
+                    location: "Multiple bases across India",
+                    emblem: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Marine_Commandos_%28MARCOS%29_logo_enhanced.png/1200px-Marine_Commandos_%28MARCOS%29_logo_enhanced.png",
+                    description: "MARCOS (Marine Commandos) is the special forces unit of the Indian Navy created for conducting special operations such as amphibious warfare, counter-terrorism, special reconnaissance, hostage rescue, and personnel recovery.",
+                    history: "MARCOS was established in 1987 as the Indian Marine Special Force (IMSF) and later renamed as Marine Commando Force (MCF). The unit gained prominence after their operations during the 2008 Mumbai attacks.",
+                    operations: ["Operation Pawan (Sri Lanka)", "Counter-terrorism operations in Jammu & Kashmir", "Operation Leech (Andaman Sea)", "Counter-piracy operations in Gulf of Aden", "2008 Mumbai attacks response"],
+                    capabilities: ["Underwater demolition", "Counter-terrorism", "Hostage rescue", "Special reconnaissance", "Direct action"]
+                },
+                {
+                    id: "navy-4",
+                    name: "Southern Naval Command",
+                    motto: "Knowledge is Power",
+                    location: "Kochi, Kerala",
+                    emblem: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpTf2TkAxGECgsY-4dSYIMyK9BrDL0yhR5qQ&s",
+                    description: "The Southern Naval Command is the training command of the Indian Navy, responsible for all training activities. It also has operational and administrative control over naval units on the southern seaboard of India.",
+                    history: "The Southern Naval Command was established in 1968 and is headquartered in Kochi, Kerala. It is primarily responsible for training all officers and sailors of the Indian Navy.",
+                    operations: ["Training operations", "Humanitarian assistance during Kerala floods", "Maritime surveillance in Indian Ocean Region", "Anti-piracy operations"],
+                    facilities: ["Indian Naval Academy", "Navigation and Direction School", "Anti-Submarine Warfare School", "Naval Institute of Educational and Training Technology"]
+                },
+                {
+                    id: "navy-5",
+                    name: "Submarine Arm",
+                    motto: "Always Invisible, Ever Invincible",
+                    location: "Various bases across India",
+                    emblem: "https://pbs.twimg.com/media/DQfaPW-UMAAxby3.jpg",
+                    description: "The Submarine Arm of the Indian Navy operates both conventional and nuclear submarines. It plays a crucial role in India's nuclear triad and naval strategy of sea denial and strategic deterrence.",
+                    history: "The Submarine Arm was established on December 8, 1967, with the commissioning of INS Kalvari, a Foxtrot-class submarine. Since then, it has evolved significantly with indigenously built submarines forming the backbone of the fleet.",
+                    operations: ["Indo-Pakistani War of 1971", "Strategic deterrence patrols", "Intelligence gathering", "Maritime surveillance"],
+                    submarines: ["Arihant-class nuclear submarines", "Kalvari-class (Scorpène) submarines", "Sindhughosh-class (Kilo) submarines", "Shishumar-class submarines"]
+                }
+            ],
+            airforce: [
+                {
+                    id: "airforce-1",
+                    name: "Western Air Command",
+                    motto: "Swift and Sure",
+                    location: "New Delhi",
+                    emblem: "https://upload.wikimedia.org/wikipedia/commons/1/1b/Wac_jpg.webp",
+                    description: "The Western Air Command (WAC) is the most important operational command of the Indian Air Force, responsible for air operations in the northern and western parts of India, covering areas along the sensitive borders with Pakistan and partially with China.",
+                    history: "The Western Air Command was established in 1947 as the No. 1 Operational Group, later renamed to No. 1 Operational Command, and finally to Western Air Command in 1963. It has participated in all major conflicts since independence.",
+                    operations: ["Indo-Pakistani Wars", "Kargil War", "Border defense operations", "Humanitarian and disaster relief"],
+                    assets: ["Su-30MKI squadrons", "Mirage 2000 squadrons", "MiG-29 squadrons", "C-17 Globemaster III transport aircraft"]
+                },
+                {
+                    id: "airforce-2",
+                    name: "Eastern Air Command",
+                    motto: "Alert Always",
+                    location: "Shillong, Meghalaya",
+                    emblem: "https://upload.wikimedia.org/wikipedia/commons/d/df/Eac_jpg.jpg",
+                    description: "The Eastern Air Command (EAC) is responsible for air operations in the eastern region of India, covering the eastern border with China, Myanmar, and Bangladesh. It plays a crucial role in maintaining air dominance in the northeastern states of India.",
+                    history: "The Eastern Air Command was established in 1958 and has played significant roles in the Sino-Indian War of 1962, Indo-Pakistani War of 1971 (especially in the eastern theater), and continues to maintain vigilance along India's eastern frontiers.",
+                    operations: ["Sino-Indian War of 1962", "Indo-Pakistani War of 1971", "Counter-insurgency air support", "Humanitarian assistance and disaster relief in Northeast India"],
+                    assets: ["Su-30MKI squadrons", "Rafale squadrons", "C-130J Super Hercules transport aircraft", "Mi-17 helicopter units"]
+                },
+                {
+                    id: "airforce-3",
+                    name: "Garud Commando Force",
+                    motto: "Defense by Offense",
+                    location: "Multiple bases across India",
+                    emblem: "https://upload.wikimedia.org/wikipedia/en/c/c5/IAF-Garud_SF.png"  ,
+                    description: "The Garud Commando Force is the special forces unit of the Indian Air Force, trained in counter-terrorism, hostage rescue, and combat search and rescue operations. They protect critical air force assets and conduct special operations behind enemy lines.",
+                    history: "Established in 2004, the Garud Force was created to enhance the IAF's capability to protect its installations from terrorist attacks and conduct specialized missions. The unit's first operational deployment was during the 2010 Commonwealth Games.",
+                    operations: ["Operation Black Tornado (2008 Mumbai attacks)", "Protection of forward air bases", "Counter-insurgency operations in Jammu & Kashmir", "Disaster relief operations"],
+                    honors: ["1 Shaurya Chakra", "3 Vayu Sena Medals (Gallantry)", "7 Mention-in-Dispatches"]
+                },
+                {
+                    id: "airforce-4",
+                    name: "No. 45 Squadron 'Flying Daggers'",
+                    motto: "Rising from the Ashes",
+                    location: "Chandigarh Air Force Station",
+                    emblem: "https://upload.wikimedia.org/wikipedia/en/7/7d/No.45_squadron_patch.jpg",
+                    description: "No. 45 Squadron operates the MiG-21 Bison aircraft and is responsible for air defense operations in northern India. Despite flying aging aircraft, the squadron maintains exceptional operational readiness.",
+                    history: "Formed in 1960, the squadron saw action in the 1965 and 1971 wars. It was resurrected in 2002 after being number-plated following the phasing out of its previous aircraft.",
+                    operations: ["Indo-Pakistani War of 1965", "Indo-Pakistani War of 1971", "Operation Safed Sagar (Kargil War)"],
+                    honors: ["3 Vir Chakras", "10 Vayu Sena Medals"]
+                },
+                {
+                    id: "airforce-5",
+                    name: "No. 9 Squadron 'Wolfpack'",
+                    motto: "Soaring to Protect",
+                    location: "Hasimara Air Force Station",
+                    emblem: "https://pbs.twimg.com/media/GoPf69eWgAE0Jmc.jpg:large",
+                    description: "Operating the Rafale multirole fighter aircraft, No. 9 Squadron is the IAF's cutting-edge air superiority squadron capable of nuclear strike missions and long-range precision strikes.",
+                    history: "Originally formed with Spitfires in 1951, the squadron has operated various aircraft including MiG-35s before transitioning to Rafales in 2020. It maintains India's nuclear deterrence in the eastern sector.",
+                    operations: ["Operation Meghdoot (Siachen support)", "Balakot airstrike (2019)", "Eastern sector air defense"],
+                    capabilities: ["Air superiority", "Strategic reconnaissance", "Precision strike", "Nuclear deterrence"]
+                }
+            ]
+        };
+
+        // Function to create unit card HTML
+        function createUnitCard(unit, branch) {
+            return `
+                <div class="unit-card" data-branch="${branch}" data-id="${unit.id}">
+                    <div class="unit-emblem">
+                        <img src="${unit.emblem}" alt="${unit.name} Emblem">
+                    </div>
+                    <div class="unit-info">
+                        <h4 class="unit-name">${unit.name}</h4>
+                        <p class="unit-motto">"${unit.motto}"</p>
+                        <p class="unit-location">📍 ${unit.location}</p>
+                    </div>
+                    <a href="#" class="view-details">VIEW DETAILS</a>
+                </div>
+            `;
+        }
+
+        // Function to render units based on branch
+        function renderUnits(branch) {
+            const container = document.getElementById('units-container');
+            container.innerHTML = '';
+            
+            Object.entries(unitsData).forEach(([forceBranch, units]) => {
+                if (branch === 'all' || branch === forceBranch) {
+                    units.forEach(unit => {
+                        container.innerHTML += createUnitCard(unit, forceBranch);
+                    });
+                }
+            });
+
+            // Add event listeners to new cards
+            document.querySelectorAll('.view-details').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const unitId = e.target.closest('.unit-card').dataset.id;
+                    showUnitDetails(unitId);
+                });
+            });
+        }
+
+        // Function to show unit details in modal
+        function showUnitDetails(unitId) {
+            const unit = Object.values(unitsData).flat().find(u => u.id === unitId);
+            const modal = document.getElementById('unit-modal');
+            
+            document.getElementById('modal-emblem-img').src = unit.emblem;
+            document.getElementById('modal-unit-name').textContent = unit.name;
+            document.getElementById('modal-unit-motto').textContent = `"${unit.motto}"`;
+            
+            const modalBody = document.getElementById('modal-body');
+            modalBody.innerHTML = `
+                <div class="info-section">
+                    <h4>Description</h4>
+                    <p>${unit.description}</p>
+                </div>
+                <div class="info-section">
+                    <h4>History</h4>
+                    <p>${unit.history}</p>
+                </div>
+                <div class="info-section">
+                    <h4>Notable ${unit.operations ? 'Operations' : 'Capabilities'}</h4>
+                    <ul>${(unit.operations || unit.capabilities).map(item => `<li>${item}</li>`).join('')}</ul>
+                </div>
+                ${unit.honors ? `
+                <div class="info-section">
+                    <h4>Honors & Awards</h4>
+                    <ul>${unit.honors.map(item => `<li>${item}</li>`).join('')}</ul>
+                </div>` : ''}
+            `;
+
+            modal.style.display = 'flex';
+        }
+
+        // Initial render
+        renderUnits('all');
+
+        // Branch selector functionality
+        document.querySelectorAll('.branch-button').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.branch-button').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                renderUnits(button.dataset.branch);
+            });
+        });
+
+        // Modal close functionality
+        document.getElementById('close-modal').addEventListener('click', () => {
+            document.getElementById('unit-modal').style.display = 'none';
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === document.getElementById('unit-modal')) {
+                document.getElementById('unit-modal').style.display = 'none';
+            }
+        });
+        
+    </script>
+</body>
+</html>
