@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Military Database</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1c1c1c; /* Dark background */
+            color: #fff; /* White text */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #2b2b2b; /* Darker container background */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .tabs button {
+            background-color: #004080;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .tabs button.active {
+            background-color: #002d5a;
+        }
+
+        .tabs button:hover {
+            background-color: #003d73;
+        }
+
+        .form-container {
+            background-color: #333; /* Form background */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 4px;
+            background-color: #222;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px #4CAF50;
+        }
+
+        button {
+            background-color: #004080;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #003d73;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #444;
+            padding: 10px;
+            text-align: left;
+            color: #fff;
+        }
+
+        th {
+            background-color: #004080;
+        }
+
+        tr:nth-child(even) {
+            background-color: #2b2b2b;
+        }
+
+        tr:hover {
+            background-color: #444;
+        }
+
+        .actions button {
+            margin-right: 5px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .btn-danger {
+            background-color: #f44336;
+        }
+
+        .btn-danger:hover {
+            background-color: #da190b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Military Database</h1>
+
+        <div class="tabs">
+            <button class="active" onclick="showForm()">Manage Medical Record</button>
+            <button onclick="showTable()">View Medical Records</button>
+        </div>
+
+        <div class="form-container" id="formSection">
+            <h2>Manage Medical Record</h2>
+            <form id="medicalForm">
+                <div class="form-group">
+                    <label for="serviceid">Service ID:</label>
+                    <select id="serviceid" required>
+                        <!-- Options will be dynamically populated -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="blood_type">Blood Type:</label>
+                    <select id="blood_type">
+                        <option value="">-- Select Blood Type --</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="allergies">Allergies:</label>
+                    <textarea id="allergies" rows="3" placeholder="Enter allergies"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="vaccination_status">Vaccination Status:</label>
+                    <select id="vaccination_status">
+                        <option value="">-- Select Status --</option>
+                        <option value="Up-to-date">Up-to-date</option>
+                        <option value="Partial">Partial</option>
+                        <option value="Not Vaccinated">Not Vaccinated</option>
+                        <option value="Expired">Expired</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="date_recorded">Date Recorded:</label>
+                    <input type="date" id="date_recorded" required>
+                </div>
+
+                <button type="submit" id="submitBtn">Save Record</button>
+            </form>
+        </div>
+
+        <div class="form-container" id="tableSection" style="display: none;">
+            <h2>Medical Records</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Record ID</th>
+                        <th>Service ID</th>
+                        <th>Blood Type</th>
+                        <th>Allergies</th>
+                        <th>Vaccination Status</th>
+                        <th>Date Recorded</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Records will be dynamically populated -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Client-side storage
+        let medicalRecords = JSON.parse(localStorage.getItem('medicalRecords')) || [];
+        let currentRecordId = medicalRecords.length > 0 ? Math.max(...medicalRecords.map(r => r.record_id)) + 1 : 1;
+        let editingId = null;
+
+        // Initialize form
+        document.getElementById('medicalForm').addEventListener('submit', handleSubmit);
+        renderTable();
+        populateServiceIdDropdown();
+
+        function handleSubmit(e) {
+            e.preventDefault();
+
+            const recordData = {
+                serviceid: parseInt(document.getElementById('serviceid').value),
+                blood_type: document.getElementById('blood_type').value || null,
+                allergies: document.getElementById('allergies').value || null,
+                vaccination_status: document.getElementById('vaccination_status').value || null,
+                date_recorded: document.getElementById('date_recorded').value || new Date().toISOString().split('T')[0]
+            };
+
+            fetch('http://localhost:3001/api/med', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(recordData),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to save medical record');
+                    }
+                    return response.json();
+                })
+                .then(message => {
+                    alert(message.message);
+                    fetchRecords(); // Refresh the table with the updated data
+                    clearForm();
+                })
+                .catch(error => console.error('Error saving medical record:', error));
+        }
+
+        function validateRecord(data) {
+            if (!data.serviceid || isNaN(data.serviceid)) {
+                showNotification('Valid Service ID is required', 'error');
+                return false;
+            }
+            if (!data.date_recorded) {
+                showNotification('Date recorded is required', 'error');
+                return false;
+            }
+            return true;
+        }
+
+        function renderTable(data = medicalRecords) {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            data.forEach(record => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${record.record_id}</td>
+                    <td>${record.serviceid}</td>
+                    <td>${record.blood_type || '-'}</td>
+                    <td>${record.allergies || 'None'}</td>
+                    <td>${record.vaccination_status || '-'}</td>
+                    <td>${new Date(record.date_recorded).toLocaleDateString()}</td>
+                    <td class="actions">
+                        <button onclick="editRecord(${record.record_id})">Edit</button>
+                        <button class="btn-danger" onclick="deleteRecord(${record.record_id})">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function fetchRecords() {
+            fetch('http://localhost:3001/api/med')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch medical records');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    medicalRecords = data; // Update the local medicalRecords array
+                    renderTable(); // Render the table with the fetched data
+                })
+                .catch(error => console.error('Error fetching medical records:', error));
+        }
+
+        function editRecord(id) {
+            const record = medicalRecords.find(r => r.record_id === id);
+            document.getElementById('serviceid').value = record.serviceid;
+            document.getElementById('blood_type').value = record.blood_type || '';
+            document.getElementById('allergies').value = record.allergies || '';
+            document.getElementById('vaccination_status').value = record.vaccination_status || '';
+            document.getElementById('date_recorded').value = record.date_recorded;
+            editingId = id;
+            document.getElementById('submitBtn').textContent = 'Update Record';
+        }
+
+        function deleteRecord(id) {
+            if (confirm('Are you sure you want to delete this medical record?')) {
+                medicalRecords = medicalRecords.filter(r => r.record_id !== id);
+                saveToLocalStorage();
+                renderTable();
+                showNotification('Record deleted successfully!', 'success');
+            }
+        }
+
+        function applyFilters() {
+            const serviceId = document.getElementById('filterServiceId').value;
+            const vaccinationStatus = document.getElementById('filterVaccination').value;
+
+            let filtered = medicalRecords.filter(r => {
+                const matchesService = serviceId ? r.serviceid == serviceId : true;
+                const matchesVaccination = vaccinationStatus ? r.vaccination_status === vaccinationStatus : true;
+                return matchesService && matchesVaccination;
+            });
+
+            renderTable(filtered);
+        }
+
+        function clearForm() {
+            document.getElementById('medicalForm').reset();
+            editingId = null;
+            document.getElementById('submitBtn').textContent = 'Save Record';
+        }
+
+        function saveToLocalStorage() {
+            localStorage.setItem('medicalRecords', JSON.stringify(medicalRecords));
+            localStorage.setItem('currentRecordId', currentRecordId);
+        }
+
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        function showForm() {
+            document.getElementById('formSection').style.display = 'block';
+            document.getElementById('tableSection').style.display = 'none';
+        }
+
+        function showTable() {
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('tableSection').style.display = 'block';
+        }
+
+        function populateServiceIdDropdown() {
+            fetch('http://localhost:3001/api/soldiers')
+                .then(response => {
+                    console.log('Response:', response); // Log the response
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch soldiers');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Fetched Soldiers:', data); // Log the fetched data
+                    const serviceIdDropdown = document.getElementById('serviceid');
+                    serviceIdDropdown.innerHTML = data.map(soldier =>
+                        `<option value="${soldier.serviceid}">${soldier.serviceid} (${soldier.first_name} ${soldier.last_name})</option>`
+                    ).join('');
+                })
+                .catch(error => console.error('Error fetching soldiers:', error));
+        }
+
+        // Initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            populateServiceIdDropdown(); // Populate the Service ID dropdown
+            fetchRecords(); // Fetch and display medical records
+        });
+    </script>
+</body>
+</html>
