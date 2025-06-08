@@ -8,30 +8,30 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
-            background-color: #1c1c1c; /* Dark background */
-            color: #f5f5f5; /* Light text */
+            background-color: #1c1c1c; 
+            color: #f5f5f5; 
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background-color: #2b2b2b; /* Darker container background */
+            background-color: #2b2b2b; 
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
 
         h1, h2 {
-            color: #ffffff; /* White headings */
+            color: #ffffff; 
             text-align: center;
         }
 
         .form-section {
             margin-bottom: 30px;
             padding: 20px;
-            border: 1px solid #444; /* Dark border */
+            border: 1px solid #444;
             border-radius: 5px;
-            background-color: #333; /* Darker form background */
+            background-color: #333; 
         }
 
         .form-row {
@@ -49,26 +49,26 @@
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
-            color: #f5f5f5; /* Light text */
+            color: #f5f5f5; 
         }
 
         input, select {
             width: 100%;
             padding: 8px;
-            border: 1px solid #555; /* Darker border */
+            border: 1px solid #555; 
             border-radius: 4px;
-            background-color: #444; /* Darker input background */
-            color: #f5f5f5; /* Light text */
+            background-color: #444; 
+            color: #f5f5f5; 
             box-sizing: border-box;
         }
 
         input:focus, select:focus {
             outline: none;
-            border-color: #007bff; /* Blue border on focus */
+            border-color: #007bff; 
         }
 
         button {
-            background-color: #007bff; /* Blue button */
+            background-color: #007bff; 
             color: white;
             padding: 10px 20px;
             border: none;
@@ -78,7 +78,7 @@
         }
 
         button:hover {
-            background-color: #0056b3; /* Darker blue on hover */
+            background-color: #0056b3; 
         }
 
         table {
@@ -88,19 +88,19 @@
         }
 
         th, td {
-            border: 1px solid #444; /* Darker border */
+            border: 1px solid #444; 
             padding: 12px;
             text-align: left;
-            color: #f5f5f5; /* Light text */
+            color: #f5f5f5; 
         }
 
         th {
-            background-color: #333; /* Darker header background */
-            color: #ffffff; /* White text */
+            background-color: #333; 
+            color: #ffffff;
         }
 
         tr:nth-child(even) {
-            background-color: #2b2b2b; /* Slightly lighter row background */
+            background-color: #2b2b2b; 
         }
 
         .actions button {
@@ -110,25 +110,25 @@
         }
 
         .delete-btn {
-            background-color: #cc0000; /* Red delete button */
+            background-color: #cc0000; 
         }
 
         .delete-btn:hover {
-            background-color: #990000; /* Darker red on hover */
+            background-color: #990000; 
         }
 
         .nav-bar {
             display: flex;
             justify-content: space-around;
-            background-color: #333; /* Darker navbar background */
+            background-color: #333; 
             padding: 10px;
             border-radius: 5px;
             margin-bottom: 20px;
         }
 
         .nav-bar button {
-            background-color: #444; /* Darker button background */
-            color: #f5f5f5; /* Light text */
+            background-color: #444; 
+            color: #f5f5f5; 
             padding: 10px 15px;
             border: none;
             border-radius: 4px;
@@ -137,7 +137,7 @@
         }
 
         .nav-bar button:hover {
-            background-color: #555; /* Slightly lighter on hover */
+            background-color: #555; 
         }
     </style>
 </head>
@@ -314,7 +314,6 @@
                     <label>Institute:</label>
                     <select id="filterInstitute">
                         <option value="">All</option>
-                        <!-- Repeat institute options here -->
                     </select>
                 </div>
                 <div class="form-group">
@@ -325,7 +324,6 @@
             <button onclick="applyFilters()">Apply Filters</button>
         </div>
 
-        <!-- Courses Table -->
         <table id="coursesTable">
             <thead>
                 <tr>
@@ -339,7 +337,7 @@
                 </tr>
             </thead>
             <tbody id="tableBody">
-                <!-- Course rows will be inserted here -->
+
             </tbody>
         </table>
     </div>
@@ -352,7 +350,7 @@
         document.getElementById('courseForm').addEventListener('submit', handleSubmit);
         renderTable();
 
-        // Create or Update a Course
+        
         function handleSubmit(e) {
             e.preventDefault();
 
@@ -375,12 +373,12 @@
                     if (!response.ok) {
                         throw new Error('Failed to add course');
                     }
-                    return response.json(); // Parse the updated list of courses
+                    return response.json(); 
                 })
                 .then(updatedCourses => {
-                    training_courses = updatedCourses; // Update the local array
-                    renderTable(); // Re-render the table
-                    clearForm(); // Clear the form
+                    training_courses = updatedCourses;
+                    renderTable();
+                    clearForm(); 
                     alert('Course added successfully!');
                 })
                 .catch(error => {
@@ -389,10 +387,10 @@
                 });
         }
 
-        // Read and Render Courses
+       
         function renderTable(data = training_courses) {
             const tbody = document.getElementById('tableBody');
-            tbody.innerHTML = ''; // Clear existing rows
+            tbody.innerHTML = ''; 
 
             data.forEach(course => {
                 const row = document.createElement('tr');
@@ -412,7 +410,7 @@
             });
         }
 
-        // Update a Course
+
         function editCourse(id) {
             const course = training_courses.find(c => c.course_id === id);
             document.getElementById('course_id').value = course.course_id;
@@ -425,7 +423,7 @@
             document.getElementById('submitBtn').textContent = 'Update Course';
         }
 
-        // Delete a Course
+        
         function deleteCourse(id) {
             if (confirm('Permanently delete this course record?')) {
                 training_courses = training_courses.filter(c => c.course_id !== id);
@@ -434,7 +432,7 @@
             }
         }
 
-        // Apply Filters
+        
         function applyFilters() {
             const courseName = document.getElementById('filterCourseName').value.toLowerCase();
             const institute = document.getElementById('filterInstitute').value;
@@ -450,7 +448,7 @@
             renderTable(filtered);
         }
 
-        // Validate Course Data
+       
         function validateCourse(data) {
             if (!data.course_name || !data.duration_days || !data.instructor_id || !data.serviceid || !data.institute) {
                 alert('Please fill in all required fields');
@@ -463,7 +461,7 @@
             return true;
         }
 
-        // Clear Form
+        
         function clearForm() {
             document.getElementById('courseForm').reset();
             document.getElementById('course_id').value = currentCourseId; // Set the next course ID
@@ -471,13 +469,12 @@
             document.getElementById('submitBtn').textContent = 'Add Course';
         }
 
-        // Save to Local Storage
         function saveToLocalStorage() {
             localStorage.setItem('training_courses', JSON.stringify(training_courses));
             localStorage.setItem('currentCourseId', currentCourseId);
         }
 
-        // Populate Dropdowns
+        
         function populateServiceIdDropdown() {
             fetch('http://localhost:3001/api/soldiers')
                 .then(response => response.json())
@@ -490,7 +487,7 @@
                 .catch(error => console.error('Error fetching soldiers:', error));
         }
 
-        function populateInstructorDropdown() {
+        function populateInstructorDropdown() {                                                                                                                                                                                                             
             fetch('http://localhost:3001/api/soldiers')
                 .then(response => response.json())
                 .then(data => {
@@ -502,19 +499,19 @@
                 .catch(error => console.error('Error fetching soldiers:', error));
         }
 
-        // Initialize Dropdowns on Page Load
+      
         document.addEventListener('DOMContentLoaded', () => {
             fetch('http://localhost:3001/api/training_courses')
                 .then(response => response.json())
                 .then(data => {
-                    training_courses = data; // Update the local array
-                    renderTable(); // Render the table
+                    training_courses = data; 
+                    renderTable(); 
                 })
                 .catch(error => console.error('Error fetching courses:', error));
 
             populateServiceIdDropdown();
             populateInstructorDropdown();
-            renderTable(); // Render the saved data on page load
+            renderTable(); 
             renderTable();
         });
     </script>
