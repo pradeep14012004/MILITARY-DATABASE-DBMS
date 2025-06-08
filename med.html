@@ -9,14 +9,14 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #1c1c1c; /* Dark background */
-            color: #fff; /* White text */
+            background-color: #1c1c1c; 
+            color: #fff; 
         }
 
         .container {
             max-width: 800px;
             margin: 20px auto;
-            background-color: #2b2b2b; /* Darker container background */
+            background-color: #2b2b2b; 
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -55,7 +55,7 @@
         }
 
         .form-container {
-            background-color: #333; /* Form background */
+            background-color: #333;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -225,7 +225,7 @@
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    <!-- Records will be dynamically populated -->
+                   
                 </tbody>
             </table>
         </div>
@@ -266,7 +266,7 @@
                 })
                 .then(message => {
                     alert(message.message);
-                    fetchRecords(); // Refresh the table with the updated data
+                    fetchRecords(); 
                     clearForm();
                 })
                 .catch(error => console.error('Error saving medical record:', error));
@@ -315,8 +315,8 @@
                     return response.json();
                 })
                 .then(data => {
-                    medicalRecords = data; // Update the local medicalRecords array
-                    renderTable(); // Render the table with the fetched data
+                    medicalRecords = data; 
+                    renderTable(); 
                 })
                 .catch(error => console.error('Error fetching medical records:', error));
         }
@@ -389,14 +389,14 @@
         function populateServiceIdDropdown() {
             fetch('http://localhost:3001/api/soldiers')
                 .then(response => {
-                    console.log('Response:', response); // Log the response
+                    console.log('Response:', response); 
                     if (!response.ok) {
                         throw new Error('Failed to fetch soldiers');
                     }
                     return response.json();
                 })
                 .then(data => {
-                    console.log('Fetched Soldiers:', data); // Log the fetched data
+                    console.log('Fetched Soldiers:', data); 
                     const serviceIdDropdown = document.getElementById('serviceid');
                     serviceIdDropdown.innerHTML = data.map(soldier =>
                         `<option value="${soldier.serviceid}">${soldier.serviceid} (${soldier.first_name} ${soldier.last_name})</option>`
@@ -405,10 +405,10 @@
                 .catch(error => console.error('Error fetching soldiers:', error));
         }
 
-        // Initial load
+        
         document.addEventListener('DOMContentLoaded', () => {
-            populateServiceIdDropdown(); // Populate the Service ID dropdown
-            fetchRecords(); // Fetch and display medical records
+            populateServiceIdDropdown(); 
+            fetchRecords();
         });
     </script>
 </body>
