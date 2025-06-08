@@ -11,8 +11,8 @@
       --success-color: #2ecc71;
       --danger-color: #e74c3c;
       --warning-color: #f39c12;
-      --light-color: #222; /* Dark background for table headers */
-      --dark-color: #000; /* Black background */
+      --light-color: #222; 
+      --dark-color: #000; 
     }
     
     * {
@@ -23,8 +23,8 @@
     }
     
     body {
-      background-color: var(--dark-color); /* Black background */
-      color: #fff; /* White text */
+      background-color: var(--dark-color); 
+      color: #fff; 
       line-height: 1.6;
     }
     
@@ -32,7 +32,7 @@
       max-width: 1200px;
       margin: 0 auto;
       padding: 1rem;
-      background-color: #111; /* Darker black for container */
+      background-color: #111; 
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     }
@@ -48,16 +48,16 @@
     
     h1, h2 {
       margin-bottom: 1rem;
-      color: #fff; /* White text */
+      color: #fff; 
     }
     
     .card {
-      background-color: #222; /* Darker black for card */
+      background-color: #222; 
       border-radius: 5px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
       padding: 1.5rem;
       margin-bottom: 2rem;
-      color: #fff; /* White text */
+      color: #fff; 
     }
     
     .form-group {
@@ -68,20 +68,19 @@
       display: block;
       margin-bottom: 0.5rem;
       font-weight: bold;
-      color: #fff; /* White text for labels */
+      color: #fff; 
     }
     
     input, textarea, select {
       width: 100%;
       padding: 0.5rem;
-      border: 1px solid #444; /* Dark border */
+      border: 1px solid #444; 
       border-radius: 3px;
       font-size: 1rem;
-      background-color: #222; /* Dark background for inputs */
-      color: #fff; /* White text for inputs */
+      background-color: #222; 
+      color: #fff; 
     }
     
-    /* General Button Styles */
     .btn {
       display: inline-block;
       padding: 0.6rem 1.2rem;
@@ -89,52 +88,52 @@
       font-weight: bold;
       text-align: center;
       text-decoration: none;
-      color: #fff; /* White text */
-      background-color: var(--primary-color); /* Primary color */
+      color: #fff;
+      background-color: var(--primary-color); 
       border: none;
-      border-radius: 8px; /* Rounded corners */
+      border-radius: 8px; 
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
     }
 
-    /* Hover Effect */
+    
     .btn:hover {
-      background-color: var(--secondary-color); /* Secondary color on hover */
-      transform: translateY(-3px); /* Slight lift effect */
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+      background-color: var(--secondary-color);
+      transform: translateY(-3px); 
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
     }
 
-    /* Success Button */
+    
     .btn-success {
-      background-color: var(--success-color); /* Success color */
+      background-color: var(--success-color); 
     }
 
     .btn-success:hover {
-      background-color: #27ae60; /* Darker success color on hover */
+      background-color: #27ae60; 
     }
 
-    /* Danger Button */
+    
     .btn-danger {
-      background-color: var(--danger-color); /* Danger color */
+      background-color: var(--danger-color); 
     }
 
     .btn-danger:hover {
-      background-color: #c0392b; /* Darker danger color on hover */
+      background-color: #c0392b; 
     }
 
-    /* Warning Button */
+    
     .btn-warning {
-      background-color: var(--warning-color); /* Warning color */
+      background-color: var(--warning-color); 
     }
 
     .btn-warning:hover {
-      background-color: #e67e22; /* Darker warning color on hover */
+      background-color: #e67e22; 
     }
 
-    /* Disabled Button */
+    
     .btn:disabled {
-      background-color: #7f8c8d; /* Gray color for disabled state */
+      background-color: #7f8c8d; 
       cursor: not-allowed;
       opacity: 0.6;
     }
@@ -143,24 +142,24 @@
       width: 100%;
       border-collapse: collapse;
       margin-top: 1rem;
-      background-color: #222; /* Dark background for table */
-      color: #fff; /* White text for table */
+      background-color: #222; 
+      color: #fff; 
     }
     
     th, td {
       padding: 0.75rem;
       text-align: left;
-      border-bottom: 1px solid #444; /* Darker border for rows */
+      border-bottom: 1px solid #444; 
     }
     
     th {
-      background-color: var(--light-color); /* Darker header background */
+      background-color: var(--light-color); 
       font-weight: bold;
-      color: #fff; /* White text for headers */
+      color: #fff;
     }
     
     tr:hover {
-      background-color: #333; /* Hover effect for rows */
+      background-color: #333; 
     }
     
     .action-buttons {
@@ -251,7 +250,7 @@
   </header>
 
   <main>
-    <!-- Add/Edit Mission Form -->
+    
     <section>
       <h2 id="formTitle">Add New Mission</h2>
       <form id="missionForm">
@@ -270,13 +269,13 @@
         <div class="form-group">
           <label for="serviceid">Service ID:</label>
           <select id="serviceid" required>
-            <!-- Options will be populated dynamically -->
+           
           </select>
         </div>
         <div class="form-group">
           <label for="assignment_id">Assignment ID:</label>
           <select id="assignment_id" required>
-            <!-- Options will be populated dynamically -->
+           
           </select>
         </div>
         <button type="submit" id="submitBtn">Add Mission</button>
@@ -284,7 +283,7 @@
       </form>
     </section>
 
-    <!-- Mission List -->
+    
     <section>
       <h2>Mission List</h2>
       <table>
@@ -300,7 +299,7 @@
           </tr>
         </thead>
         <tbody id="missionTableBody">
-          <!-- Mission rows will be dynamically added here -->
+         
         </tbody>
       </table>
     </section>
@@ -418,7 +417,7 @@
     }
 
     function populateServiceIdDropdown() {
-      fetch('http://localhost:3001/api/soldiers') // Replace with the actual API endpoint for soldiers
+      fetch('http://localhost:3001/api/soldiers')
         .then(response => {
           if (!response.ok) {
             throw new Error('Failed to fetch service IDs');
@@ -435,7 +434,7 @@
     }
 
     function populateAssignmentIdDropdown() {
-      fetch('http://localhost:3001/api/assignments') // Replace with the actual API endpoint for assignments
+      fetch('http://localhost:3001/api/assignments') 
         .then(response => {
           if (!response.ok) {
             throw new Error('Failed to fetch assignment IDs');
@@ -452,9 +451,9 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      populateServiceIdDropdown(); // Fetch and populate Service IDs
-      populateAssignmentIdDropdown(); // Fetch and populate Assignment IDs
-      fetchMissions(); // Fetch and render missions
+      populateServiceIdDropdown(); 
+      populateAssignmentIdDropdown(); 
+      fetchMissions();
     });
   </script>
 </body>
