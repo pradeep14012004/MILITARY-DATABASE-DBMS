@@ -159,13 +159,13 @@
 </head>
 <body>
 
-  <!-- Background Image -->
+ 
   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Indian_Defence_forces_Logos.jpg/1024px-Indian_Defence_forces_Logos.jpg" alt="Background" class="background-image" />
 
-  <!-- Transparent hover layer -->
+
   <div class="hover-layer" id="hoverLayer"></div>
 
-  <!-- Login Container -->
+  
   <div class="login-container" id="loginContainer">
     <div class="logo">
       <h1>Military Database</h1>
@@ -216,15 +216,12 @@ window.onpopstate = function() {
 
  
 
-
-
-    // Basic credential validation (for demonstration only)
     if(username === "456" && password === "2025") {
         sessionStorage.setItem('authenticated', 'true');
         window.location.href = 'home.html';
     } else {
         alert('INVALID CREDENTIALS - ACCESS DENIED');
-        // Optional: Add failed attempt counter
+        
     }
 });
 
