@@ -23,32 +23,30 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        /* General Styles */
+       
         body {
-            background-color: #000; /* Black background */
-            color: #fff; /* White text */
+            background-color: #000; 
+            color: #fff; 
             line-height: 1.6;
             padding: 20px;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
-        /* Container */
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
         }
         
-        /* Header */
+        
         header {
-            background-color: #111; /* Darker black for header */
-            color: #fff; /* White text */
+            background-color: #111; 
+            color: #fff; 
             padding: 1rem;
             border-radius: 5px;
             margin-bottom: 2rem;
             text-align: center;
         }
         
-        /* Tabs */
         .tabs {
             display: flex;
             margin-bottom: 1rem;
@@ -58,23 +56,22 @@
             flex: 1;
             padding: 10px;
             text-align: center;
-            background-color: #222; /* Dark gray for inactive tabs */
-            color: #fff; /* White text */
+            background-color: #222; 
+            color: #fff; 
             cursor: pointer;
-            border: 1px solid #444; /* Border for tabs */
+            border: 1px solid #444; 
             transition: background-color 0.3s;
         }
         
         .tab.active {
-            background-color: #444; /* Slightly lighter gray for active tab */
-            color: #fff; /* White text */
+            background-color: #444; 
+            color: #fff; 
         }
         
         .tab:hover:not(.active) {
-            background-color: #333; /* Hover effect for inactive tabs */
+            background-color: #333; 
         }
         
-        /* Tab Content */
         .tab-content {
             display: none;
         }
@@ -83,28 +80,27 @@
             display: block;
         }
         
-        /* Forms */
         label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
-            color: #fff; /* White text for labels */
+            color: #fff; 
         }
         
         input, select {
             width: 100%;
             padding: 8px;
-            border: 1px solid #444; /* Dark border */
+            border: 1px solid #444; 
             border-radius: 4px;
             font-size: 16px;
-            background-color: #222; /* Dark background for inputs */
-            color: #fff; /* White text for inputs */
+            background-color: #222; 
+            color: #fff; 
         }
         
         button {
             padding: 10px 15px;
-            background-color: #444; /* Dark button background */
-            color: #fff; /* White text */
+            background-color: #444;
+            color: #fff;
             border: none;
             border-radius: 4px;
             cursor: pointer;
@@ -113,23 +109,23 @@
         }
         
         button:hover {
-            background-color: #555; /* Lighter gray on hover */
+            background-color: #555; 
         }
         
         .btn-danger {
-            background-color: #d32f2f; /* Red for danger buttons */
+            background-color: #d32f2f; 
         }
         
         .btn-danger:hover {
-            background-color: #b71c1c; /* Darker red on hover */
+            background-color: #b71c1c; 
         }
         
         .btn-success {
-            background-color: #388E3C; /* Green for success buttons */
+            background-color: #388E3C;
         }
         
         .btn-success:hover {
-            background-color: #2E7D32; /* Darker green on hover */
+            background-color: #2E7D32; 
         }
         
         /* Table */
@@ -137,47 +133,46 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            background-color: #222; /* Dark background for table */
-            color: #fff; /* White text for table */
+            background-color: #222; 
+            color: #fff;
         }
         
         th, td {
             padding: 12px;
             text-align: left;
-            border-bottom: 1px solid #444; /* Darker border for rows */
+            border-bottom: 1px solid #444;
         }
         
         th {
-            background-color: #333; /* Darker header background */
-            color: #fff; /* White text for headers */
+            background-color: #333; 
+            color: #fff; 
         }
         
         tr:nth-child(even) {
-            background-color: #2a2a2a; /* Slightly lighter gray for even rows */
+            background-color: #2a2a2a; 
         }
         
         tr:hover {
-            background-color: #333; /* Hover effect for rows */
+            background-color: #333; 
         }
         
-        /* Notification */
+        
         .notification {
             padding: 15px;
             margin-bottom: 20px;
             border-radius: 4px;
-            color: #fff; /* White text */
+            color: #fff; 
             display: none;
         }
         
         .notification.success {
-            background-color: #388E3C; /* Green for success notifications */
+            background-color: #388E3C;
         }
         
         .notification.error {
-            background-color: #d32f2f; /* Red for error notifications */
+            background-color: #d32f2f; 
         }
         
-        /* Responsive Design */
         @media (max-width: 768px) {
             table {
                 display: block;
@@ -218,16 +213,17 @@
                         </tr>
                     </thead>
                     <tbody id="soldier-data">
-                        <!-- Data will be inserted here -->
+                       
                     </tbody>
                 </table>
             </div>
         </div>
         
-        <!-- Insert Tab -->
+       
         <div class="tab-content" id="insert-tab">
             <h2>Add New Soldier</h2>
             <form id="insert-form">
+                
                 <div class="form-row">
                     <div class="form-col">
                         <div class="form-group">
@@ -341,7 +337,7 @@
             </form>
         </div>
         
-        <!-- Update Tab -->
+        
         <div class="tab-content" id="update-tab">
             <h2>Update Soldier Information</h2>
             <div class="form-group">
@@ -467,7 +463,7 @@
             </form>
         </div>
         
-        <!-- Delete Tab -->
+        
         <div class="tab-content" id="delete-tab">
             <h2>Delete Soldier Record</h2>
             <div class="form-group">
@@ -478,7 +474,7 @@
             </div>
             
             <div id="soldier-to-delete-info" class="form-group" style="margin-top: 20px;">
-                <!-- Soldier info will be displayed here -->
+                
             </div>
             
             <button id="confirm-delete" class="btn-danger">Confirm Delete</button>
@@ -486,20 +482,9 @@
     </div>
     
     <script>
-        // Mock database since we can't connect to a real one in this environment
+       
         let soldiers = [];
-        let nextId = 1;
-        
-        // Sample units (would come from the units table in a real implementation)
-        const units = [
-            { unit_id: 1, name: "1st Infantry Division" },
-            { unit_id: 2, name: "2nd Armored Division" },
-            { unit_id: 3, name: "3rd Special Forces Group" },
-            { unit_id: 4, name: "4th Marine Division" },
-            { unit_id: 5, name: "5th Air Wing" }
-        ];
-        
-        // Utility functions
+
         function formatDate(dateString) {
             if (!dateString) return "";
             return new Date(dateString).toISOString().split('T')[0];
@@ -516,64 +501,56 @@
             }, 5000);
         }
         
-        // Tab functionality
+        
         document.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', () => {
-                // Remove active class from all tabs and tab contents
+               
                 document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
                 document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
                 
-                // Add active class to clicked tab and corresponding content
                 tab.classList.add('active');
                 const tabName = tab.getAttribute('data-tab');
                 document.getElementById(`${tabName}-tab`).classList.add('active');
             });
         });
         
-        // Refresh table data
         function refreshTable() {
-            fetch('http://localhost:3001/api/soldiers')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch soldiers');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('Fetched Soldiers:', data); // Debugging: Log the fetched data
-                    soldiers = data; // Update the global soldiers array
-                    const tableBody = document.getElementById('soldier-data');
-                    tableBody.innerHTML = '';
-
-                    soldiers.forEach(soldier => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${soldier.serviceid}</td>
-                            <td>${soldier.first_name} ${soldier.last_name}</td>
-                            <td>${soldier.rank || 'N/A'}</td>
-                            <td>${soldier.branch || 'N/A'}</td>
-                            <td>${soldier.unit_id || 'N/A'}</td>
-                            <td>${soldier.status || 'N/A'}</td>
-                            <td class="action-buttons">
-                                <button class="view-btn" onclick="viewSoldier(${soldier.serviceid})">View</button>
-                                <button class="edit-btn" onclick="editSoldier(${soldier.serviceid})">Edit</button>
-                                <button class="delete-btn" onclick="deleteSoldier(${soldier.serviceid})">Delete</button>
-                            </td>
-                        `;
-                        tableBody.appendChild(row);
-                    });
-
-                    updateSelectOptions(); // Update dropdown options for Update and Delete
-                })
-                .catch(error => console.error('Error fetching soldiers:', error));
-        }
+  fetch('http://localhost:3001/api/soldiers')
+    .then(response => response.json())
+    .then(data => {
+      soldiers = data;
+      renderSoldiersTable(soldiers);
+      updateSelectOptions();
+    })
+    .catch(error => console.error('Error fetching soldiers:', error));
+}
         
-        // Update select options in update and delete forms
+        function renderSoldiersTable(soldiers) {
+  const tbody = document.getElementById('soldier-data');
+  tbody.innerHTML = '';
+  soldiers.forEach(soldier => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${soldier.serviceid}</td>
+      <td>${soldier.first_name} ${soldier.last_name}</td>
+      <td>${soldier.rank}</td>
+      <td>${soldier.branch}</td>
+      <td>${soldier.unit_id}</td>
+      <td>${soldier.status}</td>
+      <td>
+        <button onclick="viewSoldier(${soldier.serviceid})">View</button>
+        <button onclick="deleteSoldier(${soldier.serviceid})">Delete</button>
+      </td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+        
         function updateSelectOptions() {
             const updateSelect = document.getElementById('update-select-id');
             const deleteSelect = document.getElementById('delete-select-id');
 
-            // Clear existing options except the first one
+            
             updateSelect.innerHTML = '<option value="">-- Select a Soldier --</option>';
             deleteSelect.innerHTML = '<option value="">-- Select a Soldier --</option>';
 
@@ -589,7 +566,6 @@
             });
         }
         
-        // Handle form submissions
         document.getElementById('insert-form').addEventListener('submit', (e) => {
             e.preventDefault();
 
@@ -627,7 +603,7 @@
                 .catch(error => console.error('Error adding soldier:', error));
         });
         
-        // Handle update selection change
+        
         document.getElementById('update-select-id').addEventListener('change', (e) => {
             const id = parseInt(e.target.value);
             if (!id) return;
@@ -650,7 +626,7 @@
             }
         });
         
-        // Handle update form submission
+       
         document.getElementById('update-form').addEventListener('submit', (e) => {
             e.preventDefault();
 
@@ -693,13 +669,12 @@
                     document.getElementById('update-select-id').value = '';
                     showNotification('Soldier updated successfully!', 'success');
 
-                    // Switch to data tab
+                    
                     document.querySelector('.tab[data-tab="data"]').click();
                 })
                 .catch(error => console.error('Error updating soldier:', error));
         });
         
-        // Handle delete selection change
         document.getElementById('delete-select-id').addEventListener('change', (e) => {
             const id = parseInt(e.target.value);
             const infoDiv = document.getElementById('soldier-to-delete-info');
@@ -724,8 +699,7 @@
                 `;
             }
         });
-        
-        // Handle delete confirmation
+       
         document.getElementById('confirm-delete').addEventListener('click', () => {
             const id = parseInt(document.getElementById('delete-select-id').value);
             if (!id) {
@@ -744,7 +718,7 @@
                     showNotification('Soldier deleted successfully!', 'success');
                 }
 
-                // Switch to data tab
+               
                 document.querySelector('.tab[data-tab="data"]').click();
             });
         
@@ -761,7 +735,7 @@
                     })
                     .then(message => {
                         alert(message.message);
-                        refreshTable(); // Refresh the table
+                        refreshTable(); 
                         showNotification('Soldier deleted successfully!', 'success');
                     })
                     .catch(error => console.error('Error deleting soldier:', error));
@@ -787,7 +761,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            refreshTable(); // Fetch and display soldier records
+            refreshTable(); 
         });
     </script>
 </body>
