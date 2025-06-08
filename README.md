@@ -6,6 +6,8 @@ Technologies Used:
 
 Backend: Node.js
 Database: MySQL 
-Frontend: HTML, CSS AND JAVASCRIPT![home](https://github.com/user-attachments/assets/e6ee7bd0-e99c-42a3-ade3-7669c7f6dea8)
+Frontend: HTML, CSS AND JAVASCRIPT
+
+![home](https://github.com/user-attachments/assets/e6ee7bd0-e99c-42a3-ade3-7669c7f6dea8)
 
 
