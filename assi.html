@@ -161,7 +161,7 @@
                     <div class="form-group">
                         <label for="serviceid">Soldier ID:</label>
                         <select id="serviceid" required>
-                            <!-- Options will be populated dynamically -->
+                            
                         </select>
                     </div>
                     <div class="form-group">
@@ -187,7 +187,7 @@
             </form>
         </div>
 
-        <!-- Filter Section -->
+        
         <div class="form-section">
             <h2>Filter Assignments</h2>
             <div class="filter-section">
@@ -225,7 +225,7 @@
                 </tr>
             </thead>
             <tbody id="tableBody">
-                <!-- Assignment rows will be inserted here -->
+              
             </tbody>
         </table>
     </div>
@@ -241,7 +241,7 @@
         populateEquipmentDropdown();
 
         document.addEventListener('DOMContentLoaded', () => {
-            populateSoldierDropdown(); // Fetch and populate Soldier IDs
+            populateSoldierDropdown();
         });
 
         function handleSubmit(e) {
