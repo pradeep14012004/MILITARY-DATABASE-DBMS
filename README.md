@@ -1,13 +1,69 @@
-# MILITARY DATABASE
+# Military Database
 
-The Military Database is a secure, centralized platform developed to efficiently manage and safeguard essential data within a military organization. It is designed to organize and streamline vast volumes of sensitive information related to personnel, ranks, units, equipment, missions, many more. By replacing outdated manual methods and fragmented legacy systems, Military Database enhances operational efficiency, accelerates data retrieval, and fosters seamless coordination across departments. This modern solution empowers military leadership with reliable data access, enabling faster, more informed decision-making and reinforcing organizational readiness.
+A database management system for organizing military personnel, units, ranks, equipment and mission-related information.
 
-Technologies Used:
+## Overview
 
-Backend: Node.js
-Database: MySQL 
-Frontend: HTML, CSS AND JAVASCRIPT
+The project demonstrates how a centralized relational database can replace fragmented manual data management with structured storage, querying and role-aware access.
 
-![home](https://github.com/user-attachments/assets/e6ee7bd0-e99c-42a3-ade3-7669c7f6dea8)
+## Features
 
+- Personnel and rank management
+- Unit and equipment records
+- Mission-related data management
+- Relational database design
+- CRUD operations
+- Backend API integration
+- Web-based interface
 
+## Architecture
+
+```text
+Web Frontend
+     |
+     v
+Node.js Backend
+     |
+     v
+MySQL Database
+```
+
+## Tech Stack
+
+- **Frontend:** HTML, CSS, JavaScript
+- **Backend:** Node.js
+- **Database:** MySQL
+
+## Getting Started
+
+Clone the repository:
+
+```bash
+git clone https://github.com/pradeep14012004/MILITARY-DATABASE-DBMS.git
+cd MILITARY-DATABASE-DBMS
+```
+
+Install the backend dependencies if a `package.json` is present:
+
+```bash
+npm install
+```
+
+Configure the MySQL connection using environment variables rather than committing credentials.
+
+## Security Note
+
+This is an academic software project. It does **not** contain or represent real military information. Never commit passwords, API keys, credentials or sensitive operational data.
+
+## Project Screenshots
+
+Screenshots and database diagrams are included in the repository where available.
+
+## Future Improvements
+
+- Role-based authentication and authorization
+- Audit logging
+- Stronger input validation
+- Database migrations
+- Automated tests
+- Dockerized deployment
